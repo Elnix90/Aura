@@ -3,7 +3,7 @@ package org.elnix.aura.base
 public object Constants {
 
     public object Signatures {
-//        public const val AURA_SIGNATURE_HASH: String = TODO()
+        public const val AURA_SIGNATURE_HASH: String = ""
     }
 
     public object URLs {

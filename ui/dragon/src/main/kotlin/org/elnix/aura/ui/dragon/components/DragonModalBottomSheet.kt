@@ -83,7 +83,7 @@ fun rememberBottomSheetState(skipPartiallyExpanded: Boolean = false): SheetState
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun rememberBottomSheetState(state: ExpandableSectionState): SheetState =
-    rememberBottomSheetState(state.mode is ExpandableSectionMode.ModalSheet && state.mode.skipPartiallyExpanded)
+    rememberBottomSheetState(state.mode is ExpandableSectionMode.ModalSheet && (state.mode as ExpandableSectionMode.ModalSheet).skipPartiallyExpanded)
 
 
 @Composable

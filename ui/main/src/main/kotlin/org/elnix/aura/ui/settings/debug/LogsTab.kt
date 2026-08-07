@@ -4,7 +4,6 @@ package org.elnix.aura.ui.settings.debug
 
 import android.app.ActivityManager
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
@@ -41,39 +40,30 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
 import io.github.elnix90.logging.LOGS_TAG
 import io.github.elnix90.logging.logD
 import io.github.elnix90.logging.logE
 import io.github.elnix90.logging.logLevelName
 import io.github.elnix90.runtime.asState
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.jsonObject
-import kotlinx.serialization.json.jsonPrimitive
-import org.elnix.aura.base.model.json
 import org.elnix.aura.base.navigaton.NavigationRoute
 import org.elnix.aura.base.utils.CopyPasteUtils.copyToClipboard
 import org.elnix.aura.base.utils.CopyPasteUtils.createShareableFile
 import org.elnix.aura.base.utils.CopyPasteUtils.shareContent
 import org.elnix.aura.base.utils.DateUtils.formatDateTime
-import org.elnix.aura.common.utils.detectSystemLauncher
-import org.elnix.aura.common.utils.rememberIsDefaultLauncher
-import org.elnix.aura.common.utils.rememberVersionCode
-import org.elnix.aura.common.utils.rememberVersionName
+import org.elnix.aura.base.utils.VersionsUtils.getVersionCode
+import org.elnix.aura.base.utils.VersionsUtils.getVersionName
 import org.elnix.aura.i18n.R
 import org.elnix.aura.ktx.showToast
 import org.elnix.aura.models.DragonLogViewModel
-import org.elnix.aura.services.ExtensionManager
 import org.elnix.aura.settings.stores.map.DebugSettingsStore
 import org.elnix.aura.theme.AppObjectsColors
 import org.elnix.aura.ui.base.activityViewModel
 import org.elnix.aura.ui.base.animation.Icon
 import org.elnix.aura.ui.base.animation.rememberAnimatedIcon
 import org.elnix.aura.ui.base.components.Spacer
+import org.elnix.aura.ui.base.compositionlocals.LocalNavigator
 import org.elnix.aura.ui.components.burger.MoreOptions
-import org.elnix.aura.ui.compositionslocals.LocalNavigator
 import org.elnix.aura.ui.dragon.components.DragonButton
 import org.elnix.aura.ui.dragon.components.DragonIconButton
 import org.elnix.aura.ui.dragon.components.DragonSettingsGroup
@@ -108,46 +98,10 @@ fun LogsTab(dragonLogViewModel: DragonLogViewModel = activityViewModel()) {
     val am = ctx.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
     val memInfo = ActivityManager.MemoryInfo()
     am.getMemoryInfo(memInfo)
-    val currentLauncher = ctx.detectSystemLauncher()
-    val isDefault by rememberIsDefaultLauncher()
-    val versionName by rememberVersionName()
-    val versionCode by rememberVersionCode()
+    val versionName = ctx.getVersionName()
+    val versionCode = ctx.getVersionCode()
 
-    // Build extension list by parsing the registry JSON directly (robust to field names)
-    var finalExtensionText = "No extensions installed"
-    try {
-        val registryContent = ctx.assets.open("extensions-registry.json").bufferedReader().readText()
-        val root = json.parseToJsonElement(registryContent)
-        val lines = ArrayList<String>()
 
-        if (root is JsonArray) {
-            for (elem in root) {
-                try {
-                    val obj = elem.jsonObject
-                    val pkgValue = obj["package"]?.jsonPrimitive?.contentOrNull
-                    val nameValue = obj["name"]?.jsonPrimitive?.contentOrNull ?: "Unknown"
-
-                    if (!pkgValue.isNullOrEmpty()) {
-                        if (ExtensionManager.isExtensionInstalled(ctx, pkgValue)) {
-                            val pkgInfo = try {
-                                ctx.packageManager.getPackageInfo(pkgValue, 0)
-                            } catch (_: Exception) {
-                                null
-                            }
-
-                            val versionStr = pkgInfo?.versionName ?: "unknown"
-                            lines.add("$nameValue ($versionStr)")
-                        }
-                    }
-                } catch (_: Exception) {
-                }
-            }
-        }
-
-        if (lines.isNotEmpty()) finalExtensionText = lines.joinToString("\n")
-    } catch (_: Exception) {
-        // registry not available or parse failed -> leave default text
-    }
 
     val deviceDetails = remember {
         buildString {
@@ -166,24 +120,7 @@ fun LogsTab(dragonLogViewModel: DragonLogViewModel = activityViewModel()) {
                     memInfo.availMem * 100 / memInfo.totalMem
                 )
             )
-            appendLine("Default Launcher: ${if (isDefault) "Yes" else "No ($currentLauncher)"}")
             appendLine("App version: $versionName ($versionCode)")
-
-            appendLine("\n EXTENSIONS ")
-            appendLine(finalExtensionText)
-
-            appendLine("\n PERMISSIONS ")
-            try {
-                val info = ctx.packageManager.getPackageInfo(ctx.packageName, PackageManager.GET_PERMISSIONS)
-                info.requestedPermissions?.forEachIndexed { index, perm ->
-                    val flags = info.requestedPermissionsFlags
-                    val granted = (flags != null && (flags[index] and 0x00000002) != 0) ||
-                            ContextCompat.checkSelfPermission(ctx, perm) == PackageManager.PERMISSION_GRANTED
-                    appendLine("${perm.substringAfterLast(".")}: ${if (granted) "✅" else "❌"}")
-                }
-            } catch (e: Exception) {
-                appendLine("Error reading permissions: $e")
-            }
         }
     }
 
@@ -224,7 +161,7 @@ fun LogsTab(dragonLogViewModel: DragonLogViewModel = activityViewModel()) {
                                 ctx.showToast("Device info copied")
                             },
                             icon = R.drawable.copy,
-                            contentDescription = "Copy Info"
+                            contentDescription = R.string.copy
                         )
                     }
                     Spacer(8.dp)
@@ -343,7 +280,7 @@ fun LogsTab(dragonLogViewModel: DragonLogViewModel = activityViewModel()) {
 
                                     DragonIconButton(
                                         icon = R.drawable.delete_forever,
-                                        contentDescription = "Delete"
+                                        contentDescription = R.string.remove
                                     ) { showDeleteDialog = file }
 
                                     DragonIconButton(
@@ -351,12 +288,12 @@ fun LogsTab(dragonLogViewModel: DragonLogViewModel = activityViewModel()) {
                                             ctx.copyToClipboard(dragonLogViewModel.readLogFile(file))
                                         },
                                         icon = R.drawable.copy,
-                                        contentDescription = "Copy"
+                                        contentDescription = R.string.copy
                                     )
 
                                     DragonIconButton(
                                         icon = R.drawable.share,
-                                        contentDescription = "Export",
+                                        contentDescription = R.string.ok // I don't want to add a new string just for that
                                     ) { exportLogFile(dragonLogViewModel, ctx, file) }
                                 }
                             }

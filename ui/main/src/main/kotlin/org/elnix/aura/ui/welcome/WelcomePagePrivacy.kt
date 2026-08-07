@@ -23,6 +23,7 @@ fun WelcomePagePrivacy() {
         "No data collection",
         "No tracking",
         "No ads",
+        "No permissions",
         "Fully open source"
     )
 

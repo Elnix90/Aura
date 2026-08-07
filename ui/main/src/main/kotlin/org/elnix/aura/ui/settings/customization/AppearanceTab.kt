@@ -18,21 +18,7 @@ fun AppearanceTab() {
         onReset = null
     ) {
         DragonSettingsGroup(R.string.colors_and_icons) {
-            RouteItem(NavigationRoute.Colors)
-            RouteItem(NavigationRoute.Icons)
             RouteItem(NavigationRoute.AppDisplay)
-        }
-
-        DragonSettingsGroup(R.string.swipe_related) {
-            RouteItem(NavigationRoute.AngleLineEdit)
-            RouteItem(NavigationRoute.HoldToActivateArc)
-            RouteItem(NavigationRoute.MainScreenLayers)
-        }
-
-        DragonSettingsGroup(R.string.other) {
-            RouteItem(NavigationRoute.StatusBar)
-            RouteItem(NavigationRoute.Theme, enabled = false)
-            RouteItem(NavigationRoute.Fonts)
-        }
+        } // TODO loll
     }
 }

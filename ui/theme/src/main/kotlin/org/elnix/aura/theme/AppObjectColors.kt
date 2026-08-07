@@ -4,7 +4,6 @@ import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.IconToggleButtonColors
@@ -17,12 +16,10 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.SwitchColors
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.TextFieldColors
-import androidx.compose.material3.ToggleButtonColors
-import androidx.compose.material3.ToggleButtonDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import org.elnix.aura.ktx.alphaMultiplier
-import org.elnix.aura.ui.composition.LocalUseCustomColorChannels
+import org.elnix.aura.ui.base.compositionlocals.LocalUseCustomColorChannels
 
 object AppObjectsColors {
 
@@ -239,22 +236,5 @@ object AppObjectsColors {
                 )
             }
         } else IconButtonDefaults.iconButtonColors()
-    }
-
-    @OptIn(ExperimentalMaterial3ExpressiveApi::class)
-    @Composable
-    fun toggleButtonColors(): ToggleButtonColors {
-        return if (LocalUseCustomColorChannels.current) {
-            with(MaterialTheme.colorScheme) {
-                ToggleButtonDefaults.toggleButtonColors(
-                    containerColor = primary,
-                    contentColor = onPrimary,
-                    disabledContainerColor = surfaceVariant,
-                    disabledContentColor = onSurfaceVariant,
-                    checkedContainerColor = surface,
-                    checkedContentColor = onSurface
-                )
-            }
-        } else ToggleButtonDefaults.toggleButtonColors()
     }
 }

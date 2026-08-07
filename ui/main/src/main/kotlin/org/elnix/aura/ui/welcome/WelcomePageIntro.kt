@@ -5,17 +5,14 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,15 +20,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 import org.elnix.aura.i18n.R
-import org.elnix.aura.settings.stores.map.PrivateSettingsStore
 import org.elnix.aura.ui.base.components.Spacer
-import org.elnix.aura.ui.compositionslocals.LocalNavigator
-import org.elnix.aura.ui.settings.backup.ImportBackupButton
+import org.elnix.aura.ui.base.compositionlocals.LocalNavigator
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
@@ -41,7 +35,6 @@ fun WelcomePageIntro(
 ) {
     val ctx = LocalContext.current
     val navigator = LocalNavigator.current
-    val scope = rememberCoroutineScope()
 
     val versionName = ctx.packageManager.getPackageInfo(ctx.packageName, 0).versionName ?: "unknown"
 
@@ -66,8 +59,6 @@ fun WelcomePageIntro(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Spacer(Modifier.weight(1f))
-
         Image(
             painter = painterResource(R.drawable.dragon_launcher_foreground),
             contentDescription = "App Logo",
@@ -117,29 +108,6 @@ fun WelcomePageIntro(
                 textAlign = TextAlign.Center,
                 fontSize = 18.sp
             )
-        }
-
-        Spacer(Modifier.weight(1f))
-
-        ImportBackupButton(
-            {
-                PrivateSettingsStore.hasInitialized.set(ctx, true)
-                setAsSeen()
-
-                // Here I do not check the initialization of the launcher, as th user imports it's settings, and therefore, it is initialized!
-                navigator.onBack()
-            }
-        ) {
-            TextButton(
-                onClick = it
-            ) {
-                Text(
-                    text = stringResource(R.string.import_settings),
-                    color = MaterialTheme.colorScheme.onBackground.copy(0.5f),
-                    textDecoration = TextDecoration.Underline,
-                    textAlign = TextAlign.Center
-                )
-            }
         }
     }
 }

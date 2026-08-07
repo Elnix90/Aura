@@ -20,8 +20,6 @@ class AuraAndroidApplicationPlugin : Plugin<Project> {
             )
             forceKotlinMetadataResolution()
 
-            val versionCode = providers.gradleProperty("version.code").get()
-
             extensions.configure(ApplicationExtension::class.java) {
                 compileSdk {
                     version = release(COMPILE_SDK)
@@ -41,7 +39,7 @@ class AuraAndroidApplicationPlugin : Plugin<Project> {
                     release {
                         isMinifyEnabled = true
                         isShrinkResources = true
-                        versionNameSuffix = " ($versionCode)"
+                        versionNameSuffix = " ($VERSION_CODE)"
                         proguardFiles(
                             getDefaultProguardFile("proguard-android-optimize.txt"),
                             "proguard-rules.pro",
@@ -51,7 +49,7 @@ class AuraAndroidApplicationPlugin : Plugin<Project> {
                     create("beta") {
                         isMinifyEnabled = true
                         applicationIdSuffix = ".beta"
-                        versionNameSuffix = " ($versionCode)-beta"
+                        versionNameSuffix = " ($VERSION_CODE)-beta"
                         proguardFiles(
                             getDefaultProguardFile("proguard-android-optimize.txt"),
                             "proguard-rules.pro",
@@ -62,7 +60,7 @@ class AuraAndroidApplicationPlugin : Plugin<Project> {
                         isDebuggable = true
                         isMinifyEnabled = false
                         applicationIdSuffix = ".debug"
-                        versionNameSuffix = " ($versionCode)-debug"
+                        versionNameSuffix = " ($VERSION_CODE)-debug"
                     }
                 }
 

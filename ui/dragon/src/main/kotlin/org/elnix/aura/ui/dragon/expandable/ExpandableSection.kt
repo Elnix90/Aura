@@ -106,7 +106,7 @@ fun ExpandableSection(
     if (state.mode is ExpandableSectionMode.ModalSheet && expanded) {
         DragonModalBottomSheet(
             onDismissRequest = { state.toggle() },
-            sheetState = rememberBottomSheetState(skipPartiallyExpanded = state.mode.skipPartiallyExpanded)
+            sheetState = rememberBottomSheetState(skipPartiallyExpanded = (state.mode as ExpandableSectionMode.ModalSheet).skipPartiallyExpanded)
         ) {
             Column(
                 verticalArrangement = Arrangement.spacedBy(5.dp),

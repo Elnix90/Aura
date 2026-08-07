@@ -5,6 +5,7 @@ import io.github.elnix90.logging.TAG
 import io.github.elnix90.logging.logE
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.elnix.aura.base.model.Update
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

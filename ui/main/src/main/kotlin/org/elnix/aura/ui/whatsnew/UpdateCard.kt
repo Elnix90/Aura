@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import org.elnix.aura.base.model.models.Update
+import org.elnix.aura.base.model.Update
 import org.elnix.aura.ui.base.components.Spacer
 import java.text.SimpleDateFormat
 

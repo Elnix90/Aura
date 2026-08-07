@@ -27,6 +27,7 @@ dependencies {
 
     implementation(libs.dragon.logging)
 
-    implementation(project(":core:base"))
+    api(project(":core:i18n"))
     api(project(":core:enumsui"))
+    implementation(project(":core:base"))
 }

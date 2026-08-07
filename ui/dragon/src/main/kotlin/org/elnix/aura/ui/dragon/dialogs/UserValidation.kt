@@ -15,6 +15,7 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -31,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import org.elnix.aura.base.utils.CopyPasteUtils.copyToClipboard
 import org.elnix.aura.i18n.R
-import org.elnix.aura.material.shapes.toShape
 import org.elnix.aura.theme.AppObjectsColors
 import org.elnix.aura.ui.base.animation.Icon
 import org.elnix.aura.ui.base.animation.rememberAnimatedIcon
@@ -159,7 +159,7 @@ fun UserValidation(
                                 Spacer(Modifier.weight(1f))
                                 DragonIconButton(
                                     icon = R.drawable.copy,
-                                    contentDescription = "Copy",
+                                    contentDescription = R.string.copy,
                                     modifier = Modifier
                                         .padding(8.dp)
                                 ) { ctx.copyToClipboard(message) }

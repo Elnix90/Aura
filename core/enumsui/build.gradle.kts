@@ -12,5 +12,6 @@ dependencies {
 
     api(libs.androidx.compose.runtime)
 
+    implementation(project(":core:i18n"))
     implementation(project(":core:base"))
 }

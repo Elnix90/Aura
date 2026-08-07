@@ -22,7 +22,7 @@ import io.github.elnix90.runtime.asState
 import kotlinx.coroutines.launch
 import org.elnix.aura.base.loader.loadChangelogs
 import org.elnix.aura.base.utils.CopyPasteUtils.copyToClipboard
-import org.elnix.aura.common.utils.rememberVersionCode
+import org.elnix.aura.base.utils.VersionsUtils.getVersionCode
 import org.elnix.aura.i18n.R
 import org.elnix.aura.settings.stores.map.PrivateSettingsStore
 import org.elnix.aura.ui.base.components.Spacer
@@ -37,7 +37,7 @@ fun WhatsNewBottomSheet() {
     val scope = rememberCoroutineScope()
 
     val lastSeenVersionCodeWhatsNew by PrivateSettingsStore.lastSeenVersionCodeWhatsNew.asState()
-    val versionCode by rememberVersionCode()
+    val versionCode = ctx.getVersionCode()
 
     if (lastSeenVersionCodeWhatsNew >= versionCode) return
 

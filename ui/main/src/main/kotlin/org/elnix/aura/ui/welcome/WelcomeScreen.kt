@@ -37,14 +37,11 @@ import `in`.hridayan.shapeindicators.ShapeIndicatorRow
 import io.github.elnix90.logging.WELCOME_TAG
 import io.github.elnix90.logging.logD
 import kotlinx.coroutines.launch
-import org.elnix.aura.base.navigaton.NavigationRoute
 import org.elnix.aura.i18n.R
-import org.elnix.aura.models.InitializationViewModel
 import org.elnix.aura.settings.stores.map.PrivateSettingsStore
-import org.elnix.aura.ui.base.activityViewModel
 import org.elnix.aura.ui.base.components.AnimatedFab
 import org.elnix.aura.ui.base.components.Spacer
-import org.elnix.aura.ui.compositionslocals.LocalNavigator
+import org.elnix.aura.ui.base.compositionlocals.LocalNavigator
 
 
 private const val pageNumber = 6
@@ -52,9 +49,7 @@ private const val pageNumber = 6
 @SuppressLint("LocalContextGetResourceValueCall", "FrequentlyChangingValue")
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun WelcomeScreen(
-    initializationViewModel: InitializationViewModel = activityViewModel()
-) {
+fun WelcomeScreen() {
     val ctx = LocalContext.current
     val navigator = LocalNavigator.current
     val pagerState = rememberPagerState(pageCount = { pageNumber })
@@ -127,25 +122,9 @@ fun WelcomeScreen(
                 when (page) {
                     0 -> WelcomePageIntro(pagerState.currentPage < 2, ::setHasSeen)
                     1 -> WelcomePagePrivacy()
-                    2 -> WelcomePageTutorial()
-                    3 -> WelcomePageLauncher()
-                    4 -> WelcomePageBackup()
                     5 -> WelcomePageFinish(
-                        onEnterSettings = {
-                            setHasSeen()
-
-                            // Initialize only when exiting from the welcome screen, to avoid the initialization layer to override points/nests
-                            initializationViewModel.checkLauncherInitialization()
-
-                            navigator.popBackMainScreen()
-                            navigator.navigate(NavigationRoute.PointsSettings(0))
-                        },
                         onEnterApp = {
                             setHasSeen()
-
-                            // Initialize only when exiting from the welcome screen, to avoid the initialization layer to override points/nests
-                            initializationViewModel.checkLauncherInitialization()
-
                             navigator.onBack()
                         }
                     )
