@@ -6,7 +6,7 @@
 
 ---
 
-TODO ADD ICONS HERE (I need the first commit hash)
+<img src="https://github.com/Elnix90/Aura/blob/fb5801752b13ea34576c953f4ced38d6a0a7ec28/assets/aura_foreground.jpg" width="22%" alt="App Icon"/>
 
 # Aura - Lie a little
 
