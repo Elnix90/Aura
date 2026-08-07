@@ -1,0 +1,4 @@
+2.6.1
+2026-03-01
+[FIXED]
+* Points icon shape is always square when it has no custom icon

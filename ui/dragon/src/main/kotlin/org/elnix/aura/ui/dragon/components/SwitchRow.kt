@@ -1,0 +1,64 @@
+package org.elnix.aura.ui.dragon.components
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Switch
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import org.elnix.aura.theme.AppObjectsColors
+import org.elnix.aura.ui.base.remember.rememberInteractionSource
+import org.elnix.aura.ui.dragon.text.TextWithDescription
+
+@Composable
+fun SwitchRow(
+    state: Boolean?,
+    title: String,
+    modifier: Modifier = Modifier,
+    description: String? = null,
+    enabled: Boolean = true,
+    resetEnabled: Boolean = true,
+    defaultValue: Boolean = false,
+    onReset: (() -> Unit)? = null,
+    onCheck: (Boolean) -> Unit
+) {
+    val checked = state ?: defaultValue
+
+    val interactionSource = rememberInteractionSource()
+    Row(
+        modifier = modifier
+            .clickable(
+                enabled = enabled,
+                onClick = { onCheck(!checked) },
+                interactionSource = interactionSource
+            )
+            .padding(12.dp),
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        TextWithDescription(
+            text = title,
+            description = description,
+            modifier = Modifier.weight(1f),
+            enabled = enabled
+        )
+
+        Switch(
+            checked = checked,
+            enabled = enabled,
+            interactionSource = interactionSource,
+            onCheckedChange = null,
+            colors = AppObjectsColors.switchColors()
+        )
+
+        if (onReset != null) {
+            ResetIcon(
+                enabled = enabled && resetEnabled,
+                onReset = onReset
+            )
+        }
+    }
+}

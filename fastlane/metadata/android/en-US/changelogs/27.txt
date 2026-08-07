@@ -1,0 +1,6 @@
+2.1.1
+2026-01-13
+[FIXED]
+* Icons packs not loading at app start
+[IMPROVED]
+* Some ui improvements

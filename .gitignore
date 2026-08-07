@@ -1,0 +1,15 @@
+*.iml
+.gradle
+.idea
+/local.properties
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+.env
+.env2
+.kotlin
+crash.txt
+auraKeystore.p12

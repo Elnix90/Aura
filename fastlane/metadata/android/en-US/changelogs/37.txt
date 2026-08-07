@@ -1,0 +1,15 @@
+2.5.0
+2026-02-10
+[NEW]
+* bottom search bar feature
+* recently used apps section in app drawer
+* settings lock with PIN, biometric, or device credentials
+* multi-select support in AppPickerDialog
+* pinned shortcuts support
+[FIXED]
+* icon pack matching issues
+* scroll actions activating only at drawer top
+* work apps opening non-work versions
+[IMPROVED]
+* wellbeing feature with enhanced overlay reminders and timer stability
+* app drawer with category display

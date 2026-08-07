@@ -1,0 +1,13 @@
+1.2.6
+2025-12-24
+
+[NEW]
+ * Wallpaper feature: you can set wallpaper on main / drawer (different); apply blur on them, enable and disable, and set system wallpaper
+ * Updated from MIT licence to GLP 3 due to licencing mistake, since Dragon launcher is using some CCLauncher code
+ * Added an option to show all points on the circle
+ * Improved canvas drawing and made apps circles don't override the background set (if one
+
+[IMPROVED]
+ * Internal structural improvements
+ * Set default main screen swipe zone padding to 20 horizontally and 50 vertically, and increased value range from 0-50 to 0-100
+ * Todolist structure improvement: now github projects

@@ -1,0 +1,13 @@
+2.3.2
+2026-01-20
+[FIXED]
+* Fixed slider keyboard input
+* Added/fixed drawer actions
+* Changed drawer scroll threshold
+* Added workspace aliases
+* Fixed backup logic & UI
+* Fixed app preview sliders
+* Added switch row callbacks
+* Improved logging & defaults
+[ISSUES]
+* Icons shapes are broken

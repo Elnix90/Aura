@@ -1,0 +1,14 @@
+[main]
+name = Dragon Launcher
+slug = dragon-launcher
+web = https://github.com/Elnix90/Dragon-Launcher
+
+[[component]]
+name = Strings
+slug = strings
+repo = https://github.com/Elnix90/Dragon-Launcher.git
+push = git@github.com:Elnix90/Dragon-Launcher.git
+branch = main
+filemask = app/src/main/res/values-*/strings.xml
+template = app/src/main/res/values/strings.xml
+file_format = aresource

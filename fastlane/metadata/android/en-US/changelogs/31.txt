@@ -1,0 +1,16 @@
+2.3.0
+2026-01-29
+[NEW]
+* Added gif converter script for demo assets
+* Added haptic feedback system
+* Added min drag angle per circle
+* Added app aliases support
+[FIXED]
+* Fixed custom icon tint applying incorrectly
+* Fixed boolean triggers not loading from settings
+* Fixed icon customization for non-launch actions
+[IMPROVED]
+* Complete settings system refactor (type-safe)
+* Optimized distances editing UI
+* Fixed UI colors and translations
+* Downgraded minSdk to 25 (Android 7 support)

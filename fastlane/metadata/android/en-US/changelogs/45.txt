@@ -1,0 +1,16 @@
+2.7.0 (Glowel)
+2026-03-07
+[NEW]
+* Glow support for angle lines & custom objects
+* Draw order customization
+* Option to disable auto-launch on space press
+[FIXED]
+* Delete workspace button & logic
+* BaseSettingsStore & color format issues
+* Settings UI alignment
+* Auto-backup banner persistence
+* Backup stores including private data
+[IMPROVED]
+* ARGB color decoding with fallback
+* Angle line customization system
+* Sub-nest radius slider logic

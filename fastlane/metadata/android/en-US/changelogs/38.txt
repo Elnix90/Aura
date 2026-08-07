@@ -1,0 +1,13 @@
+2.5.1
+2026-02-11
+[NEW]
+* option to use legacy points actions snapping to inner circle in behavior tab
+* option to disable haptic feedback on points
+* quick actions on long-press settings
+[FIXED]
+* points icons rendering behind circles
+* status bar tab behavior with newer APIs and animations
+[IMPROVED]
+* higher-order functions for dragon and click shapes
+* status bar formatting options, removed forced time separator
+* backup reliability by adding missing keys

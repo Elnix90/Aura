@@ -1,0 +1,16 @@
+2.6.0
+2026-03-01
+[NEW]
+* Custom nest point icons (closes #139)
+* Hover-to-merge points feature
+* Status bar enhancements: block system, fully customizable
+* Loading arc & drag hole customization
+[FIXED]
+* workspace app management (rename/add/remove)
+* app aliases sorting (closes #219, #213)
+[IMPROVED]
+* Complete settings refactor with CompositionLocals
+* Icon caching for drawing performance
+* Settings screen performance optimizations
+[NOTE]
+* Density-based sizing require icon reconfiguration

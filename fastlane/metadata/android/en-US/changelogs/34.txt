@@ -1,0 +1,11 @@
+2.3.3
+2026-01-31
+[FIXED]
+ * Fixed icon bitmap rendering for AdaptiveIconDrawable (background + foreground layers)
+ * Fixed black icon issue by properly rendering both adaptive icon layers
+ * Added clipImageToShape utility for pre-clipping icons to any Shape
+ * Fixed DrawScope shape clipping compilation errors
+ [IMPROVED]
+ * Icons now properly clipped to custom IconShape before drawing
+ * Enhanced icon rendering pipeline with shape-aware clipping
+ * Enhanced Drawer with more customisation with icons spacing and sizes

@@ -1,0 +1,12 @@
+2.1.0
+2026-01-12
+[NEW]
+* System wallpaper used by default.
+* Full icon customization & app label sizing.
+[FIXED]
+* Crash on dialogs.
+* Icon loading for profiles & points.
+* Padding, notch, and bar issues.
+[IMPROVED]
+* Shared imports, translations, dialogs.
+* Metadata & signing updates.

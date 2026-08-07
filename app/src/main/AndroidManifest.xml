@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:name=".AuraApplication"
+        android:appCategory="productivity"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/BaseTheme"
+        tools:targetApi="33">
+
+        <activity
+            android:name=".MainActivity"
+            android:enableOnBackInvokedCallback="true"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:resumeWhilePausing="true"
+            android:stateNotNeeded="true"
+            android:resizeableActivity="true"
+            android:taskAffinity=""
+            android:theme="@style/BaseTheme"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
+    </application>
+</manifest>

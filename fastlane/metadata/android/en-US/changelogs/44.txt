@@ -1,0 +1,14 @@
+2.6.2
+2026-03-03
+[NEW]
+* Rotation widgets (#224)
+* More widgets support
+* edit nest size individually
+[FIXED]
+* crash on update from old data storage system (split cacheKey)
+[IMPROVED]
+* upgraded Gradle files to AGP 9+
+* updated some translations
+* changed google lockdown warning with custom popup
+[NOTE]
+* known issue with widget moving, will be fixed one day

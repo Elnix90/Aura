@@ -1,0 +1,13 @@
+2.2.0
+2026-01-18
+[NEW]
+ * Icon packs tint and per-icon tint/blending customization
+ * Icon editor plain color option
+ * Widget separation by nestId on main screen
+[FIXED]
+ * Icon pack tint and color picker issues
+ * All apps view reloading on settings restore
+ * MainScreen overlay border visibility
+[IMPROVED]
+ * Global UI and dialogs, nests management, async loading and translations
+ * Removed global transition animations and unused libs

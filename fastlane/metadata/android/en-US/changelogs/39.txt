@@ -1,0 +1,13 @@
+2.5.2
+2026-02-16
+[NEW]
+* Super Warning Mode with alarm, metal pipes and vibration
+* Shapes support inside pin dialog
+* Private Space support
+[FIXED]
+* App picker grid inconsistencies and search behavior
+* Repeating press button interaction issues
+* Drawer duplicate keys and work app rendering
+[IMPROVED]
+* Unified app launch flow with wellbeing checks
+* Pin dialog UX refinements and point animations

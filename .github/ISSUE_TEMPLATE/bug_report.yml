@@ -1,0 +1,67 @@
+name: Bug Report
+description: Report a bug
+title: "[BUG] "
+labels: [ "bug" ]
+body:
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Requirements
+      options:
+        - label: I checked for duplicate issues in both opened and closed
+          required: true
+        - label: I updated the app to the latest version
+          required: true
+        - label: I updated the app to the latest beta version to test (check both if you did so)
+          required: false
+        - label: I haven't read those requirements
+          required: false
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of the bug.
+      placeholder: Describe what happened.
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: What you expected to happen.
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: What actually happened.
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: What version of Dragon Launcher are you using?
+      placeholder: e.g., v2.2.0
+  - type: textarea
+    id: device_and_version
+    attributes:
+      label: Device and version
+      description: What device are you using, and what android version? You can get those infos in [Debug](https://github.com/Elnix90/Dragon-Launcher/blob/af493797dc7b54747d5ce035333a288d40c98137/wiki/Access-Debug-mode.md) -> Logs
+      placeholder: e.g., Google Pixel 10, Android16
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: If applicable, add logs to help explain your problem.
+      render: shell
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here.

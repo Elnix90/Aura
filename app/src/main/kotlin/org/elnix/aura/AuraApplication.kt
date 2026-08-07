@@ -1,0 +1,89 @@
+package org.elnix.aura
+
+import android.annotation.SuppressLint
+import android.app.Application
+import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
+import dagger.hilt.android.HiltAndroidApp
+import io.github.elnix90.core.stores.JsonArraySettingsStore
+import io.github.elnix90.core.stores.JsonObjectSettingsStore
+import io.github.elnix90.core.stores.MapSettingsStore
+import io.github.elnix90.logging.SETTINGS_TAG
+import io.github.elnix90.logging.logD
+import io.github.elnix90.logging.logI
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import org.elnix.aura.settings.AllStores
+import org.elnix.aura.settings.stores.map.LanguageSettingsStore
+import org.elnix.aura.settings.stores.map.PrivateSettingsStore
+import timber.log.Timber
+
+@HiltAndroidApp
+class AuraApplication : Application() {
+    @SuppressLint("LogNotTimber")
+    override fun onCreate() {
+        super.onCreate()
+        val defaultHandler = Thread.getDefaultUncaughtExceptionHandler()
+
+        Thread.setDefaultUncaughtExceptionHandler { thread, throwable ->
+            Log.e("AuraCrash", "FATAL CRASH on thread ${thread.name}: ${throwable.message}", throwable)
+
+            runBlocking {
+                PrivateSettingsStore.lastCrashStackTrace.set(
+                    this@AuraApplication,
+                    throwable.stackTraceToString()
+                )
+            }
+
+            defaultHandler?.uncaughtException(thread, throwable)
+        }
+
+        Timber.plant(Timber.DebugTree())
+
+        initializeAllStores()
+
+        CoroutineScope(Dispatchers.Default).launch {
+            val tag = LanguageSettingsStore.keyLang.get(this@AuraApplication)
+            if (tag.isNotEmpty()) {
+                AppCompatDelegate.setApplicationLocales(
+                    LocaleListCompat.forLanguageTags(tag)
+                )
+            }
+        }
+    }
+
+    private fun initializeAllStores() {
+        var totalSettings = 0
+        var totalJsonObject = 0
+        var totalJsonArray = 0
+
+        AllStores.forEach { store ->
+
+            when (store) {
+                is JsonArraySettingsStore -> {
+                    logI(SETTINGS_TAG) { "Initializing ${store.name} (jsonArray)" }
+                    totalJsonArray++
+                }
+
+                is JsonObjectSettingsStore -> {
+                    logI(SETTINGS_TAG) { "Initializing ${store.name} (jsonObject)" }
+                    totalJsonObject++
+                }
+
+                is MapSettingsStore -> {
+                    val settingsNumber = store.ALL.size
+                    totalSettings += settingsNumber
+                    logI(SETTINGS_TAG) { "Initializing ${store.name} ($settingsNumber settings)" }
+                    store.ALL.forEach {
+                        logD(SETTINGS_TAG) { "    - ${it.key}" }
+                    }
+                }
+            }
+        }
+
+        logI(SETTINGS_TAG) { "Finished initializing settings;${AllStores.size} total stores, with: $totalSettings different settings and $totalJsonObject JsonObject and $totalJsonArray JsonArray stores" }
+    }
+}

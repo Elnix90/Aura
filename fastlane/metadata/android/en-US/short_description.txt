@@ -1,0 +1,1 @@
+Fast and efficient Android launcher based on gestures and minimalism

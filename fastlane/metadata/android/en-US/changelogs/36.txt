@@ -1,0 +1,14 @@
+2.4.1
+2026-02-06
+[NEW]
+* Added shape customization for point icon borders
+* Added Play Protect installation note for Android users
+* Added new user screenshots in README
+* Back action in drawer
+[FIXED]
+* Fixed Shape adapter Gson crash
+* Fixed wrong UI colors and shape inconsistencies
+* Fixed reset behavior of drawer action toggles
+[IMPROVED]
+* Improved Icon Editor dialog UI
+* Changed UI display elements and colors for better consistency

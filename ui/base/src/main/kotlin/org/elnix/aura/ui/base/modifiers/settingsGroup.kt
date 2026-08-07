@@ -1,0 +1,22 @@
+package org.elnix.aura.ui.base.modifiers
+
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import org.elnix.aura.ktx.semiTransparentIfDisabled
+
+
+@Composable
+fun Modifier.settingsGroup(
+    clickModifier: Modifier? = null,
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    enabled: Boolean = true
+): Modifier {
+    return this
+        .clip(MaterialTheme.shapes.large)
+        .background(backgroundColor.semiTransparentIfDisabled(enabled))
+        .then(clickModifier ?: this)
+}

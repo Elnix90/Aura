@@ -1,0 +1,11 @@
+2.2.1
+2026-01-19
+[NEW]
+ * Double-click to edit/open nests from settings
+[FIXED]
+ * UI colors in nests and themes corrected
+ * Settings reset now applies properly
+[IMPROVED]
+ * Nest selection behavior and drag angle improvements
+ * Auto-launch support for Xiaomi devices
+ * Menu consistency and Readme updates

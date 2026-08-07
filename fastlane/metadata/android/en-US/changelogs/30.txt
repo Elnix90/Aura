@@ -1,0 +1,13 @@
+2.2.2
+2026-01-21
+[NEW]
+* Added up-scroll in drawer to close keyboard
+* Added customizable home action on drawer and main screen
+* Added feedback on long press to show button action
+[FIXED]
+* Fixed wrong datastore keys possibly resetting settings
+* Removed lag on icon packs tab by moving loading off main thread
+* Fixed settings title overflow hiding button
+[IMPROVED]
+* Extended long click hint to other Dragon-style buttons
+* Updated icon pack system to store name/drawable instead of bitmap

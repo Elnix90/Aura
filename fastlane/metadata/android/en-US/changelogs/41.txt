@@ -1,0 +1,13 @@
+2.5.4
+2026-02-20
+[NEW]
+* cancel button on Private Space unlock screen.
+[FIXED]
+* icon picker search bar behavior.
+* wrong nested scroll and pager offset behavior.
+* JSON cache app loading.
+* previously introduced loading lag for icon packs and icons.
+[IMPROVED]
+* Exported icon packs with smarter parsing (reads icons from related directories to get proper names).
+* Updated drawer animation for faster and smoother feel.
+* icons loading performance.
