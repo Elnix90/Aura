@@ -60,7 +60,7 @@ fun WelcomePageIntro(
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(R.drawable.dragon_launcher_foreground),
+            painter = painterResource(R.mipmap.ic_launcher_foreground),
             contentDescription = "App Logo",
             modifier = Modifier.size(260.dp)
         )

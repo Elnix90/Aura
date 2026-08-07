@@ -1,6 +1,8 @@
 package org.elnix.aura.ui.warning
 
 import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,7 +27,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import org.elnix.aura.i18n.R
 import org.elnix.aura.models.SecurityViewModel
 import org.elnix.aura.ui.base.activityViewModel
@@ -89,11 +90,11 @@ fun SignatureWarningDialog(
                         securityViewModel.useAnyways.value = true
                     },
                     onConfirm = {
-                        ctx.startActivity(
-                            Intent(Intent.ACTION_DELETE).apply {
-                                data = "package:${ctx.packageName}".toUri()
-                            }
-                        )
+                        val packageName = ctx.packageName
+                        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                            data = Uri.fromParts("package", packageName, null)
+                        }
+                        ctx.startActivity(intent)
                     }
                 )
             }
