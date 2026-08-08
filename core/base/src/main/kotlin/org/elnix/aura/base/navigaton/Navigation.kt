@@ -24,6 +24,15 @@ public sealed class NavigationRoute : NavKey {
         override val icon: Int = R.drawable.home
     }
 
+    @SerialName("EditIdentity")
+    @Serializable
+    public data class EditIdentity(
+        val id: Long
+    ) : NavigationRoute() {
+        override val resId: Int = R.string.edit_identity
+        override val icon: Int = R.drawable.edit_rounded
+    }
+
     @Serializable
     @SerialName("Settings")
     public data object Settings : NavigationRoute() {
@@ -83,13 +92,6 @@ public sealed class NavigationRoute : NavKey {
         override fun hashCode(): Int = super.hashCode()
         override val resId: Int = R.string.logs
         override val icon: Int = R.drawable.source_notes
-    }
-
-    @Serializable
-    @SerialName("LockScreen")
-    public data object LockScreen : NavigationRoute() {
-        override val resId: Int = R.string.lock
-        override val icon: Int = R.drawable.lock
     }
 
     override fun hashCode(): Int = System.identityHashCode(this)

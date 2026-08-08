@@ -5,19 +5,13 @@ import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.application
 import androidx.lifecycle.viewModelScope
-import androidx.navigation3.runtime.NavKey
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.github.elnix90.logging.SECURITY_SERVICE
 import io.github.elnix90.logging.logD
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.elnix.aura.base.Constants.Signatures.AURA_SIGNATURE_HASH
 import org.elnix.aura.base.SettingFlow
-import org.elnix.aura.base.navigaton.NavigationRoute
-import org.elnix.aura.enumsui.toggle.LockMethod
 import org.elnix.aura.enumsui.toggle.LockMethod.Device
-import org.elnix.aura.enumsui.toggle.LockMethod.None
 import org.elnix.aura.enumsui.toggle.LockMethod.Pattern
 import org.elnix.aura.enumsui.toggle.LockMethod.Pin
 import org.elnix.aura.i18n.R
@@ -34,11 +28,7 @@ public class SecurityViewModel @Inject constructor(
     private val securityService: SecurityService,
 ) : AndroidViewModel(application) {
 
-    public val isLocked: SettingFlow<Boolean> = SettingFlow(false)
-    public val screenToUnlock: SettingFlow<NavigationRoute?> = SettingFlow(null)
-
-    private val lockMethod: Flow<LockMethod> = PrivateSettingsStore.lockMethod.flow(application)
-
+    public val isLocked: SettingFlow<Boolean> = SettingFlow(true)
     public val signatureMatched: SettingFlow<Boolean> = SettingFlow(true)
     public val useAnyways: SettingFlow<Boolean> = SettingFlow(false)
 
@@ -93,33 +83,14 @@ public class SecurityViewModel @Inject constructor(
     public fun unlock() {
         logD(SECURITY_SERVICE) { "User asked to unlock!" }
         isLocked.value = false
-        screenToUnlock.value = null
     }
 
     public fun verify(pin: String, storedHash: String): Boolean = securityService.verify(pin, storedHash)
 
     public fun cancelUnlock() {
-        screenToUnlock.value = null
-    }
-
-    public fun onEnterNewRoute(route: NavKey) {
-        if (route !in NavigationRoute.settingsRoutes) {
-            lock()
-        }
     }
 
 
-    public fun requestUnlock(targetScreen: NavigationRoute) {
-        viewModelScope.launch {
-            when (lockMethod.first()) {
-                None -> unlock()
-
-                Pin, Pattern, Device -> {
-                    screenToUnlock.value = targetScreen
-                }
-            }
-        }
-    }
 
     public fun isDeviceUnlockAvailable(): Boolean = securityService.isDeviceUnlockAvailable(application)
 
