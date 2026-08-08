@@ -52,29 +52,19 @@ This app lets you build as many identities as you like and hand each shop a diff
 
 ---
 
-[//]: # (---)
+## Signing
+Releases / F-Droid signing key (SHA-256):
 
-[//]: # (## Signing)
+```text
+7bf0a4322fcab3b47d4d71c44bbe50af8486f34d5c43d525500829d2810c2faa
+```
 
-[//]: # ()
-[//]: # (Releases / F-Droid signing key &#40;SHA-256&#41;:)
+Verify:
 
-[//]: # ()
-[//]: # (```text)
+```bash 
 
-[//]: # (TODO&#40;&#41;)
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (Verify:)
-
-[//]: # ()
-[//]: # (```bash )
-
-[//]: # (apksigner verify --print-certs Aura-*.apk)
-
-[//]: # (```)
+apksigner verify --print-certs Aura-*.apk
+```
 
 ## Contributing
 
