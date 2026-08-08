@@ -1151,6 +1151,7 @@
     <string name="no_identities_title">No identities yet</string>
     <string name="no_identities_description">Tap the button below to create your first disposable identity.</string>
     <string name="add_identity">Add identity</string>
+    <string name="create_new_identity">Create new identity</string>
     <string name="edit_identity">Edit identity</string>
     <string name="identity_label">Label</string>
     <string name="identity_label_placeholder">e.g. Grocery store</string>

@@ -104,6 +104,7 @@ fun MainScreen(
             IdentityEditorSheet(
                 initialValues = IdentityValues(),
                 onDismiss = { addingNew = false },
+                isCreatingNew = true,
                 onSave = {
                     addingNew = false
                     identitiesViewModel.createIdentity(it)
@@ -116,6 +117,7 @@ fun MainScreen(
             IdentityEditorSheet(
                 initialValues = identity!!.toValues(),
                 onDismiss = { editingIdentity = null },
+                isCreatingNew = false,
                 onSave = {
                     editingIdentity = null
                     identitiesViewModel.updateIdentity(identity.entity.id, it)

@@ -52,6 +52,7 @@ import org.elnix.aura.ui.dragon.text.DialogTitle
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IdentityEditorSheet(
+    isCreatingNew: Boolean,
     initialValues: IdentityValues,
     onDismiss: () -> Unit,
     onSave: (IdentityValues) -> Unit,
@@ -88,7 +89,7 @@ fun IdentityEditorSheet(
                 .verticalScroll(rememberScrollState())
         ) {
             DialogTitle(
-                text = stringResource(R.string.edit_identity),
+                text = stringResource(if (isCreatingNew) R.string.create_new_identity else R.string.edit_identity),
                 modifier = Modifier.fillMaxWidth()
             )
 
