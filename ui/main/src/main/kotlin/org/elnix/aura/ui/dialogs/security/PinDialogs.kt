@@ -5,24 +5,15 @@ package org.elnix.aura.ui.dialogs.security
 import android.annotation.SuppressLint
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.Animatable
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,42 +21,33 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsIgnoringVisibility
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.graphics.shapes.RoundedPolygon
+import io.github.elnix90.lock.PinLock
+import io.github.elnix90.lock.pin.PinIndicator
 import io.github.elnix90.runtime.asMutableState
 import io.github.elnix90.runtime.asState
-import kotlinx.coroutines.launch
 import org.elnix.aura.i18n.R
-import org.elnix.aura.ktx.semiTransparentIfDisabled
 import org.elnix.aura.models.SecurityViewModel
 import org.elnix.aura.settings.stores.map.PrivateSettingsStore
 import org.elnix.aura.ui.base.activityViewModel
@@ -74,8 +56,16 @@ import org.elnix.aura.ui.dragon.dialogs.UserValidation
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 private val okMaterialShapes = listOf(
-    MaterialShapes.Bun,
-    MaterialShapes.Fan
+    MaterialShapes.Circle,
+    MaterialShapes.Gem,
+    MaterialShapes.Arrow,
+    MaterialShapes.Arch,
+    MaterialShapes.Cookie4Sided,
+    MaterialShapes.Cookie7Sided,
+    MaterialShapes.Flower,
+    MaterialShapes.Pentagon,
+    MaterialShapes.Pill,
+    MaterialShapes.Diamond
 )
 
 /**
@@ -356,7 +346,7 @@ private fun PinPrompt(
                 }
             }
 
-            NumericPinPad(
+            PinLock(
                 modifier = Modifier.fillMaxWidth(),
                 onDigit = { digit ->
                     if (pinValue.length < maxDigits) {
@@ -375,185 +365,3 @@ private fun PinPrompt(
     }
 }
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
-@Composable
-private fun PinIndicator(
-    shapes: List<RoundedPolygon>
-) {
-    val scope = rememberCoroutineScope()
-    val lazyState = rememberLazyListState()
-
-    LaunchedEffect(shapes.size) {
-        if (shapes.isNotEmpty()){
-            scope.launch { lazyState.scrollToItem(shapes.lastIndex) }
-        }
-    }
-
-    LazyRow(
-        horizontalArrangement = Arrangement.spacedBy(10.dp),
-        state = lazyState
-    ) {
-        items(shapes) { shape ->
-            var scaleTarget by remember { mutableFloatStateOf(0f) }
-
-            // Trigger visibility only once when shape is added
-            // I find this genius
-            LaunchedEffect(shape) {
-                scaleTarget = 1f
-            }
-
-            val scale by animateFloatAsState(
-                targetValue = scaleTarget,
-                animationSpec = spring(
-                    dampingRatio = Spring.DampingRatioMediumBouncy,
-                    stiffness = Spring.StiffnessLow
-                )
-            )
-
-            Box(
-                modifier = Modifier
-                    .size(25.dp)
-                    .graphicsLayer(scaleX = scale, scaleY = scale)
-                    .background(
-                        color = MaterialTheme.colorScheme.primary,
-                        shape = shape.toShape()
-                    )
-            )
-        }
-    }
-}
-
-
-@Composable
-private fun NumericPinPad(
-    modifier: Modifier,
-    validateEnabled: Boolean,
-    backSpaceOrClose: Boolean,
-    onDigit: (String) -> Unit,
-    onValidate: () -> Unit,
-    onClear: () -> Unit
-) {
-    val rows = listOf(
-        listOf("1", "2", "3"),
-        listOf("4", "5", "6"),
-        listOf("7", "8", "9")
-    )
-
-    val spacing = 20.dp
-
-
-    Column(
-        modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(spacing)
-    ) {
-        rows.forEach { row ->
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(spacing)
-            ) {
-                row.forEach { digit ->
-                    KeypadButton(
-                        text = digit,
-                        modifier = Modifier.weight(1f),
-                        onClick = onDigit
-                    )
-                }
-            }
-        }
-
-
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(spacing)
-        ) {
-            AnimatedContent(
-                targetState = backSpaceOrClose,
-                modifier = Modifier.weight(1f)
-            ) {
-
-                KeypadButton(
-                    icon = if (it) R.drawable.backspace else R.drawable.close,
-                    tint = MaterialTheme.colorScheme.error,
-                    onClick = onClear
-                )
-            }
-
-            KeypadButton(
-                text = "0",
-                modifier = Modifier.weight(1f),
-                onClick = onDigit
-            )
-
-            KeypadButton(
-                icon = R.drawable.check,
-                tint = Color.Green,
-                modifier = Modifier.weight(1f),
-                onClick = onValidate,
-                enabled = validateEnabled
-            )
-        }
-    }
-}
-
-@Composable
-private fun KeypadButton(
-    modifier: Modifier = Modifier,
-    icon: Int,
-    tint: Color,
-    enabled: Boolean = true,
-    onClick: (() -> Unit)? = null,
-) {
-
-    Box(
-        modifier = modifier.keyPadModifier(enabled, onClick),
-        contentAlignment = Alignment.Center
-    ) {
-        Icon(
-            painterResource(id = icon),
-            contentDescription = null,
-            tint = tint
-        )
-    }
-}
-
-@Composable
-private fun KeypadButton(
-    text: String,
-    modifier: Modifier = Modifier,
-    onClick: (String) -> Unit,
-) {
-
-    Box(
-        modifier = modifier.keyPadModifier { onClick(text) },
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = text,
-            color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.ExtraBold
-        )
-    }
-}
-
-
-@Composable
-private fun Modifier.keyPadModifier(
-    enabled: Boolean = true,
-    onClick: (() -> Unit)? = null
-): Modifier {
-
-    return this
-        .aspectRatio(1f)
-        .then(
-            onClick?.let { click ->
-                Modifier.clickable(
-                    enabled = enabled,
-                    onClick = click
-                )
-            } ?: Modifier
-        )
-        .background(MaterialTheme.colorScheme.surface.semiTransparentIfDisabled(enabled))
-        .padding(15.dp)
-}
