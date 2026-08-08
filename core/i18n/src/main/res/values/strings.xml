@@ -1146,4 +1146,5 @@
     <string name="render_background">Render Background</string>
     <string name="render_background_desc">Whether or not to render the background layer of the icons</string>
     <string name="icons_settings">Icons Settings</string>
+    <string name="identities">Identities</string>
 </resources>

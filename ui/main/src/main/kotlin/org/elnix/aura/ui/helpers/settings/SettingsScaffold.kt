@@ -3,6 +3,8 @@ package org.elnix.aura.ui.helpers.settings
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -59,6 +61,7 @@ fun SettingsScaffold(
     specialSettingsTitle: @Composable (() -> Unit)? = null,
     scrollableContent: Boolean = true,
     imePadding: Boolean = true,
+    fab: @Composable (BoxScope.() -> Unit)? = null,
     lazyContent: (LazyListScope.() -> Unit)? = null,
     content: @Composable (ColumnScope.() -> Unit)? = null
 ) {
@@ -112,36 +115,41 @@ fun SettingsScaffold(
         }
     ) { paddingValues ->
 
-        Column(
-            modifier = Modifier
-                .conditional(applyPadding) {
-                    padding(paddingValues)
-                        .fillMaxSize()
-                }
+        Box(
+            modifier = Modifier.conditional(applyPadding) {
+                padding(paddingValues)
+                    .fillMaxSize()
+            }
         ) {
-            if (topContent != null) {
-                topContent()
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                if (topContent != null) {
+                    topContent()
+                }
+
+                if (lazyContent != null) {
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxSize(),
+                        state = lasyListState ?: rememberLazyListState()
+                    ) { lazyContent() }
+
+                } else {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .conditional(scrollableContent) {
+                                verticalScroll(scrollState ?: rememberScrollState())
+                            }
+                    ) { content!!() }
+                }
             }
 
-            if (lazyContent != null) {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.fillMaxSize(),
-                    state = lasyListState ?: rememberLazyListState()
-                ) { lazyContent() }
-
-            } else {
-                Column(
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .conditional(scrollableContent) {
-                            verticalScroll(scrollState ?: rememberScrollState())
-                        }
-                ) { content!!() }
-            }
+            fab?.invoke(this)
         }
     }
 

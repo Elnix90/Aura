@@ -63,7 +63,7 @@ public class IdentitiesViewModel @Inject constructor(
 
     public fun createIdentity(
         values: IdentityValues,
-        onResult: (Long) -> Unit = {},
+        onResult: (Boolean) -> Unit = {},
     ) {
         viewModelScope.launch {
             onResult(repository.createIdentity(values))

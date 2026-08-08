@@ -13,10 +13,10 @@ import org.elnix.aura.database.models.Identity
 @Dao
 public interface IdentityDao {
     @Insert
-    public suspend fun insert(identity: IdentityEntity): Long
+    public suspend fun insert(identity: IdentityEntity)
 
     @Update
-    public suspend fun update(identity: IdentityEntity): Int
+    public suspend fun update(identity: IdentityEntity)
 
     @Delete
     public suspend fun delete(identity: IdentityEntity)

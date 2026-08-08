@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.elnix.aura.i18n.R
 import org.elnix.aura.ui.base.components.AnimatedFab
+import org.elnix.aura.ui.base.modifiers.conditional
 import org.elnix.aura.ui.base.remember.rememberInteractionSource
 import org.elnix.aura.ui.components.burger.BurgerListAction
 import org.elnix.aura.ui.components.burger.MoreOptions
@@ -30,7 +31,7 @@ import org.elnix.aura.ui.dragon.components.ResetIcon
 @Composable
 private fun SettingsTitleInternal(
     title: String,
-    onBack: () -> Unit,
+    onBack: (() -> Unit)?,
     moreOptions: ((() -> Unit) -> List<MoreOptions>)?,
     specialContent: @Composable RowScope.() -> Unit
 ) {
@@ -46,18 +47,22 @@ private fun SettingsTitleInternal(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 10.dp, vertical = 20.dp)
-            .clickable(
-                indication = null,
-                interactionSource = interactionSource,
-                onClick = onBack
-            )
+            .conditional(onBack) {
+                clickable(
+                    indication = null,
+                    interactionSource = interactionSource,
+                    onClick = it
+                )
+            }
     ) {
 
-        AnimatedFab(
-            onClick = onBack,
-            interactionSource = interactionSource,
-            icon = R.drawable.back
-        )
+        if (onBack != null) {
+            AnimatedFab(
+                onClick = onBack,
+                interactionSource = interactionSource,
+                icon = R.drawable.back
+            )
+        }
 
         Text(
             text = title,
@@ -121,19 +126,13 @@ fun SettingsTitle(
 
 @Composable
 fun SpecialSettingsTitle(
-    onSettings: () -> Unit,
-    onShowMoreSheet: () -> Unit,
-    onBack: () -> Unit
+    onSettings: () -> Unit
 ) {
     SettingsTitleInternal(
-        title = stringResource(R.string.points_settings),
-        onBack = onBack,
+        title = stringResource(R.string.identities),
+        onBack = null,
         moreOptions = null
     ) {
-        AnimatedFab(
-            onClick = onShowMoreSheet,
-            icon = R.drawable.more_horiz
-        )
 
         AnimatedFab(
             onClick = onSettings,

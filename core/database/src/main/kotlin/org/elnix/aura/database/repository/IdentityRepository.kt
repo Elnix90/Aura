@@ -61,7 +61,7 @@ public class IdentityRepository @Inject constructor(
 
     public suspend fun getIdentity(id: Long): Identity? = identityDao.getIdentityById(id)
 
-    public suspend fun createIdentity(values: IdentityValues): Long = database.withTransaction {
+    public suspend fun createIdentity(values: IdentityValues): Boolean = database.withTransaction {
         val references = resolveReferences(values)
         val now = System.currentTimeMillis()
         identityDao.insert(
@@ -78,6 +78,7 @@ public class IdentityRepository @Inject constructor(
                 updatedAt = now,
             ),
         )
+        true
     }
 
     public suspend fun updateIdentity(id: Long, values: IdentityValues): Boolean = database.withTransaction {

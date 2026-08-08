@@ -55,7 +55,6 @@ import org.elnix.aura.base.Constants.URLs.GITHUB_REPO_ISSUES_LINK
 import org.elnix.aura.base.Constants.URLs.GITHUB_REPO_LINK
 import org.elnix.aura.base.Constants.URLs.GITHUB_REPO_RELEASES_LINK
 import org.elnix.aura.base.Constants.URLs.MAILTO_LINK
-import org.elnix.aura.base.Constants.URLs.WEBLATE_LINK
 import org.elnix.aura.base.navigaton.NavigationRoute
 import org.elnix.aura.base.utils.CopyPasteUtils.copyToClipboard
 import org.elnix.aura.base.utils.LifecycleUtils.closeApp
@@ -217,7 +216,7 @@ fun SettingsScreen(
                 ) {
                     ic(githubIcon, GITHUB_REPO_LINK, interactionSources[0])
                     ic(R.drawable.discord_symbol_blurple, DISCORD_INVITE_LINK, interactionSources[1])
-                    ic(R.drawable.weblate_icon, WEBLATE_LINK, interactionSources[4])
+//                    ic(R.drawable.weblate_icon, WEBLATE_LINK, interactionSources[4])
                     ic(R.drawable.protonmail_icon, MAILTO_LINK, interactionSources[5])
                 }
             }
@@ -282,30 +281,6 @@ fun SettingsScreen(
                 )
             }
         }
-
-        DragonSettingsGroup(R.string.contributors) {
-            ContributorItem(
-                name = "YoannDev90",
-                imageRes = R.drawable.yoanndev90,
-                description = stringResource(R.string.yoann_desc),
-                githubUrl = "https://github.com/YoannDev90"
-            )
-
-            ContributorItem(
-                name = "Lucky",
-                imageRes = R.drawable.lucky_the_cookie,
-                description = stringResource(R.string.lucky_desc),
-                githubUrl = "https://lthb.fr"
-            )
-
-            ContributorItem(
-                name = "Federico",
-                imageRes = R.drawable.federico,
-                description = stringResource(R.string.federico_desc),
-                githubUrl = "https://github.com/federicobuttafuori"
-            )
-        }
-
 
         // Version name (clickable to access debug / copy)
         Column(
