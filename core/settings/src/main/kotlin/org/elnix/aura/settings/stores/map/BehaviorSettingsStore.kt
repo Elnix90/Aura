@@ -16,11 +16,4 @@ public object BehaviorSettingsStore : MapSettingsStore() {
         description = R.string.keep_screen_on_desc,
         default = false
     )
-
-    @SettingKey
-    public val disableHapticFeedbackGlobally: BooleanSettingObject = boolean(
-        title = R.string.disable_haptic_globally,
-        description = R.string.disable_haptic_globally_desc,
-        default = false
-    )
 }

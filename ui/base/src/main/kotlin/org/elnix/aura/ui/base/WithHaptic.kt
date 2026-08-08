@@ -6,7 +6,6 @@ import androidx.compose.runtime.retain.retain
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 import org.elnix.aura.settings.stores.map.BehaviorSettingsStore
-import org.elnix.aura.ui.base.compositionlocals.LocalDisableHapticFeedbackGlobally
 
 
 /**
@@ -26,12 +25,11 @@ fun withHaptic(
     block: () -> Unit
 ): () -> Unit {
     val haptic = LocalHapticFeedback.current
-    val disableHapticFeedbackGlobally= LocalDisableHapticFeedbackGlobally.current
     val latestBlock = rememberUpdatedState(block)
 
-    return retain(type, haptic, disableHapticFeedbackGlobally) {
+    return retain(type, haptic) {
         {
-            if (!disableHapticFeedbackGlobally) haptic.performHapticFeedback(type)
+            haptic.performHapticFeedback(type)
             latestBlock.value()
         }
     }

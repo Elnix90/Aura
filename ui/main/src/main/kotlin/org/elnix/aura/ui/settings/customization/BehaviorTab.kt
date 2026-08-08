@@ -50,7 +50,6 @@ fun BehaviorTab() {
 
         DragonSettingsGroup(R.string.common_settings) {
             Setting(BehaviorSettingsStore.keepScreenOn)
-            Setting(BehaviorSettingsStore.disableHapticFeedbackGlobally)
         }
 
         DragonSettingsGroup(R.string.security) {
