@@ -67,15 +67,6 @@ fun DebugTab() {
                 Text(text = "Show Google lockdown warning")
             }
 
-            DragonButton(
-                onClick = { scope.launch { PrivateSettingsStore.hasSeenWelcome.reset(ctx) } },
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(text = "Show Welcome Screen")
-            }
-
             Setting(DebugSettingsStore.forceAppLanguageSelector)
             Setting(PrivateSettingsStore.hideBetaVersionWarning)
             Setting(DebugSettingsStore.showFps)

@@ -16,10 +16,6 @@ import org.elnix.aura.i18n.R
 
 @SettingsStore
 public object PrivateSettingsStore : MapSettingsStore(backupable = false) {
-
-    @SettingKey
-    public val hasSeenWelcome: BooleanSettingObject = boolean(false)
-
     @SettingKey
     public val hasInitialized: BooleanSettingObject = boolean(
         title = R.string.has_initialized,
@@ -71,15 +67,6 @@ public object PrivateSettingsStore : MapSettingsStore(backupable = false) {
 
     @SettingKey
     public val lockMethod: EnumSettingObject<LockMethod> = enum(LockMethod.None)
-
-    /**
-     * Used to remember the page the user left when exiting the welcome screen, and going, for example to the default launcher selection
-     */
-    @SettingKey
-    public val welcomeScreenTempPage: IntSettingObject = int(
-        default = 0,
-        allowedRange = 0..6,
-    )
 
     @SettingKey
     public val lastCrashStackTrace: StringSettingObject = string("")

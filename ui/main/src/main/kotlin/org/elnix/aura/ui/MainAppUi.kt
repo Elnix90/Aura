@@ -26,7 +26,6 @@ import androidx.navigation3.ui.NavDisplay
 import io.github.elnix90.logging.SECURITY_SERVICE
 import io.github.elnix90.logging.logD
 import io.github.elnix90.runtime.asState
-import io.github.elnix90.runtime.asStateNull
 import org.elnix.aura.base.navigaton.NavigationRoute
 import org.elnix.aura.enumsui.toggle.LockMethod.Device
 import org.elnix.aura.enumsui.toggle.LockMethod.None
@@ -55,7 +54,6 @@ import org.elnix.aura.ui.settings.debug.DebugTab
 import org.elnix.aura.ui.settings.debug.LogsTab
 import org.elnix.aura.ui.settings.debug.LogsViewerScreen
 import org.elnix.aura.ui.warning.SignatureWarningDialog
-import org.elnix.aura.ui.welcome.WelcomeScreen
 import org.elnix.aura.ui.whatsnew.ChangelogsScreen
 import org.elnix.aura.ui.whatsnew.WhatsNewBottomSheet
 
@@ -111,13 +109,6 @@ fun MainAppUi(securityViewModel: SecurityViewModel = activityViewModel()) {
         }
     }
 
-    val hasSeenWelcome by PrivateSettingsStore.hasSeenWelcome.asStateNull()
-    LaunchedEffect(hasSeenWelcome) {
-        if (hasSeenWelcome == false) {
-            navigator.navigate(NavigationRoute.Welcome)
-        }
-    }
-
     ProvideGlobalCompositionLocals {
         CompositionLocalProvider(
             LocalNavigator provides navigator
@@ -154,7 +145,6 @@ fun MainAppUi(securityViewModel: SecurityViewModel = activityViewModel()) {
                         entry<NavigationRoute.Main>(metadata = verticalMetadata) { MainScreen() }
 
 
-                        entry<NavigationRoute.Welcome>(metadata = horizontalMetadata) { WelcomeScreen() }
                         entry<NavigationRoute.Settings>(metadata = horizontalMetadata) { SettingsScreen() }
                         entry<NavigationRoute.Appearance>(metadata = horizontalMetadata) { AppearanceTab() }
                         entry<NavigationRoute.Behavior>(metadata = horizontalMetadata) { BehaviorTab() }

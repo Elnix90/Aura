@@ -25,14 +25,6 @@ public sealed class NavigationRoute : NavKey {
     }
 
     @Serializable
-    @SerialName("Welcome")
-    public data object Welcome : NavigationRoute() {
-        override val resId: Int = R.string.welcome_screen
-        override val icon: Int = R.drawable.rocket_launch
-    }
-
-
-    @Serializable
     @SerialName("Settings")
     public data object Settings : NavigationRoute() {
         override val resId: Int = R.string.settings
