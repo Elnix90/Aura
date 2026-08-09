@@ -54,6 +54,7 @@ dependencies {
     implementation(libs.settings.core)
     implementation(libs.settings.runtime)
     implementation(libs.compose.lock)
+    implementation(libs.colorpicker.compose)
 
     api(libs.androidx.activity.compose)
     api(libs.androidx.activity)
