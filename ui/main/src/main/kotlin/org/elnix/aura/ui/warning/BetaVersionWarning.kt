@@ -1,4 +1,4 @@
-package org.elnix.aura.ui.components
+package org.elnix.aura.ui.warning
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
