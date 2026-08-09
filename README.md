@@ -49,7 +49,7 @@ This app lets you build as many identities as you like and hand each shop a diff
 * **No** data collection
 * Internet permission for fetching random addresses
 * Location permission to find the random addresses around you
-* All data stored locally (you can backup manually or use the auto backup feature)
+* All data stored locally (you can backup manually)
 
 ---
 
