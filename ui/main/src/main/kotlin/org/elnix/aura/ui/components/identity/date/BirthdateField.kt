@@ -1,7 +1,10 @@
-package org.elnix.aura.ui.components.date
+package org.elnix.aura.ui.components.identity.date
 
+import android.text.format.DateFormat
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.Animatable
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -25,6 +28,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLocale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.LiveRegionMode
@@ -33,11 +38,13 @@ import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.elnix.aura.i18n.R
 import org.elnix.aura.ui.base.animation.barsContentTransform
 import org.elnix.aura.ui.base.animation.bouncySpec
+import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneOffset
@@ -53,6 +60,7 @@ internal fun BirthdateField(
     onValueChange: (String) -> Unit,
     onShuffle: () -> Unit,
 ) {
+    val ctx = LocalContext.current
     val scope = rememberCoroutineScope()
     var showPicker by remember { mutableStateOf(false) }
     val description = stringResource(R.string.open)
@@ -68,7 +76,16 @@ internal fun BirthdateField(
                     targetState = value,
                     transitionSpec = { barsContentTransform }
                 ) { value ->
-                    Text(value.ifEmpty { stringResource(R.string.pick_a_date) })
+
+                    val locale = LocalLocale.current.platformLocale
+                    val formattedDate = try {
+                        val date = SimpleDateFormat("yyyy-MM-dd", locale).parse(value)
+                        date?.let { DateFormat.getLongDateFormat(ctx).format(it) }
+                    } catch (_: Exception) {
+                        value
+                    }
+
+                    Text((formattedDate ?: "").ifEmpty { stringResource(R.string.pick_a_date) })
                 }
             }
         },
@@ -122,7 +139,10 @@ internal fun BirthdateField(
                     )
                 }
             }
-        }
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
     )
 
 

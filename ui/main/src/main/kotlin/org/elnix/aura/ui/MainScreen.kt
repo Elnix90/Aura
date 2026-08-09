@@ -32,6 +32,7 @@ import org.elnix.aura.ui.base.activityViewModel
 import org.elnix.aura.ui.base.components.AnimatedFab
 import org.elnix.aura.ui.base.components.Spacer
 import org.elnix.aura.ui.base.compositionlocals.LocalNavigator
+import org.elnix.aura.ui.components.identity.card.IdentityCard
 import org.elnix.aura.ui.dragon.dialogs.UserValidation
 import org.elnix.aura.ui.helpers.settings.SettingsScaffold
 import org.elnix.aura.ui.helpers.settings.SpecialSettingsTitle

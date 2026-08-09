@@ -29,7 +29,7 @@ import org.elnix.aura.ui.dragon.components.DragonIconButton
 import org.elnix.aura.ui.dragon.components.ResetIcon
 
 @Composable
-private fun SettingsTitleInternal(
+internal fun BaseSettingsTitle(
     title: String,
     onBack: (() -> Unit)?,
     moreOptions: ((() -> Unit) -> List<MoreOptions>)?,
@@ -75,9 +75,8 @@ private fun SettingsTitleInternal(
 
         actions?.let {
             Box {
-                DragonIconButton(
-                    icon = R.drawable.more_vert,
-                    contentDescription = R.string.open_burger_menu
+                AnimatedFab(
+                    icon = R.drawable.more_vert
                 ) { showBurgerMenu = true }
 
                 BurgerListAction(
@@ -106,7 +105,7 @@ fun SettingsTitle(
     onBack: () -> Unit
 ) {
 
-    SettingsTitleInternal(
+    BaseSettingsTitle(
         title = title,
         moreOptions = moreOptions,
         onBack = onBack
@@ -130,12 +129,11 @@ fun SettingsTitle(
 fun SpecialSettingsTitle(
     onSettings: () -> Unit
 ) {
-    SettingsTitleInternal(
+    BaseSettingsTitle(
         title = stringResource(R.string.identities),
         onBack = null,
         moreOptions = null
     ) {
-
         AnimatedFab(
             onClick = onSettings,
             icon = R.drawable.settings

@@ -5,16 +5,15 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,32 +23,36 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.retain.retain
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import org.elnix.aura.database.models.AddressData
 import org.elnix.aura.database.models.IdentityValues
-import org.elnix.aura.database.random.RandomData
 import org.elnix.aura.database.remote.NearbyAddressResult
 import org.elnix.aura.i18n.R
 import org.elnix.aura.ktx.showToast
 import org.elnix.aura.models.IdentitiesViewModel
+import org.elnix.aura.theme.AppObjectsColors
 import org.elnix.aura.ui.base.activityViewModel
 import org.elnix.aura.ui.base.components.AnimatedFab
-import org.elnix.aura.ui.base.components.Spacer
 import org.elnix.aura.ui.base.compositionlocals.LocalNavigator
-import org.elnix.aura.ui.components.date.BirthdateField
-import org.elnix.aura.ui.components.phone.PhoneField
-import org.elnix.aura.ui.dragon.components.DragonButton
+import org.elnix.aura.ui.components.identity.address.RandomAddressSection
+import org.elnix.aura.ui.components.burger.MoreOptions
+import org.elnix.aura.ui.components.identity.common.IdentityTextField
+import org.elnix.aura.ui.components.identity.date.BirthdateField
+import org.elnix.aura.ui.components.identity.email.EmailField
+import org.elnix.aura.ui.components.identity.note.NotesField
+import org.elnix.aura.ui.components.identity.phone.PhoneField
 import org.elnix.aura.ui.dragon.components.DragonSettingsGroup
 import org.elnix.aura.ui.dragon.expandable.ExpandableSection
 import org.elnix.aura.ui.dragon.expandable.rememberExpandableSection
 import org.elnix.aura.ui.dragon.model.ExpandableSectionMode
+import org.elnix.aura.ui.helpers.settings.BaseSettingsTitle
 import org.elnix.aura.ui.helpers.settings.SettingsScaffold
 
 
@@ -141,10 +144,9 @@ fun IdentityEditorScreen(
     }
 
     fun randomizeAll() {
-        val old = editIdentity
-        editIdentity = randomIdentityProvider.randomizeAll().copy(
-            customNoteDetail = old.customNoteDetail
-        )
+        with(randomIdentityProvider) {
+            editIdentity = editIdentity.randomizeAll()
+        }
     }
 
     SettingsScaffold(
@@ -153,29 +155,23 @@ fun IdentityEditorScreen(
         onReset = null,
         resetText = null,
         specialSettingsTitle = {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp, vertical = 20.dp)
+
+            BaseSettingsTitle(
+                title = stringResource(if (isCreatingNew) R.string.create_new_identity else R.string.edit_identity),
+                onBack = navigator::onBack,
+                moreOptions = { dismiss ->
+                    listOf(
+                        MoreOptions(
+                            text = { stringResource(R.string.randomize_all) },
+                            onClick = {
+                                randomizeAll()
+                                dismiss()
+                            },
+                            icon = R.drawable.shuffle,
+                        )
+                    )
+                }
             ) {
-
-                AnimatedFab(
-                    onClick = navigator::onBack,
-                    icon = R.drawable.close,
-                    containerColor = MaterialTheme.colorScheme.errorContainer
-                )
-
-                Text(
-                    text = stringResource(if (isCreatingNew) R.string.create_new_identity else R.string.edit_identity),
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier
-                        .weight(1f)
-                        .basicMarquee(iterations = 2)
-                )
-
                 AnimatedFab(
                     onClick = { onSave(editIdentity) },
                     icon = R.drawable.save,
@@ -188,75 +184,75 @@ fun IdentityEditorScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier.fillMaxWidth(),
         ) {
-            DragonButton(
-                onClick = ::randomizeAll,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp, vertical = 2.dp),
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.casino),
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp),
-                )
-                Spacer(8.dp)
-                Column {
-                    Text(
-                        text = stringResource(R.string.randomize_all),
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                    Text(
-                        text = stringResource(R.string.randomize_all_description),
-                        style = MaterialTheme.typography.bodySmall,
-                    )
-                }
+            val focusRequester = remember { FocusRequester() }
+
+            LaunchedEffect(Unit) {
+                focusRequester.requestFocus()
             }
 
-            IdentityTextField(
+            OutlinedTextField(
                 value = editIdentity.label.orEmpty(),
                 onValueChange = { editIdentity = editIdentity.copy(label = it) },
-                onShuffle = { editIdentity = editIdentity.copy(label = randomIdentityProvider.randomLabel()) },
-                label = stringResource(R.string.identity_label),
-                placeholder = stringResource(R.string.identity_label_placeholder),
-                modifier = Modifier.weight(1f),
+                label = {
+                    Text(stringResource(R.string.identity_label))
+                },
+                placeholder = {
+                    Text(stringResource(R.string.what_is_this_identity_for))
+                },
+                singleLine = true,
+                shape = CircleShape,
+                colors = AppObjectsColors.outlinedTextFieldColors(
+                    backgroundColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    onBackgroundColor = MaterialTheme.colorScheme.onSurface,
+                    removeBorder = true
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 10.dp, vertical = 2.dp)
+                    .focusRequester(focusRequester)
             )
 
-            EmailField(
-                value = editIdentity.email.orEmpty(),
-                onValueChange = { editIdentity = editIdentity.copy(email = it) },
-                onShuffle = { editIdentity = editIdentity.copy(email = randomIdentityProvider.randomEmail()) }
-            )
 
-            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                IdentityTextField(
-                    value = editIdentity.name.orEmpty(),
-                    onValueChange = { editIdentity = editIdentity.copy(name = it) },
-                    onShuffle = { editIdentity = editIdentity.copy(name = randomIdentityProvider.randomName()) },
-                    label = stringResource(R.string.identity_name),
-                    modifier = Modifier.weight(1f),
+            DragonSettingsGroup(R.string.basic_infos) {
+                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                    IdentityTextField(
+                        value = editIdentity.name.orEmpty(),
+                        onValueChange = { editIdentity = editIdentity.copy(name = it) },
+                        onShuffle = { editIdentity = editIdentity.copy(name = randomIdentityProvider.randomName()) },
+                        label = stringResource(R.string.identity_name),
+                        modifier = Modifier.weight(1f),
+                    )
+
+                    IdentityTextField(
+                        value = editIdentity.surname.orEmpty(),
+                        onValueChange = { editIdentity = editIdentity.copy(surname = it) },
+                        onShuffle = { editIdentity = editIdentity.copy(surname = randomIdentityProvider.randomSurname()) },
+                        label = stringResource(R.string.identity_surname),
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+
+                EmailField(
+                    value = editIdentity.email.orEmpty(),
+                    onValueChange = { editIdentity = editIdentity.copy(email = it) },
+                    onShuffle = { editIdentity = editIdentity.copy(email = randomIdentityProvider.randomEmail()) }
                 )
 
-                IdentityTextField(
-                    value = editIdentity.surname.orEmpty(),
-                    onValueChange = { editIdentity = editIdentity.copy(surname = it) },
-                    onShuffle = { editIdentity = editIdentity.copy(surname = randomIdentityProvider.randomSurname()) },
-                    label = stringResource(R.string.identity_surname),
-                    modifier = Modifier.weight(1f),
+                PhoneField(
+                    value = editIdentity.phone.orEmpty(),
+                    onValueChange = { editIdentity = editIdentity.copy(phone = it) },
+                    onShuffle = { editIdentity = editIdentity.copy(phone = randomIdentityProvider.randomPhone()) },
                 )
             }
 
-            BirthdateField(
-                value = editIdentity.birthdate.orEmpty(),
-                onValueChange = { editIdentity = editIdentity.copy(birthdate = it) },
-                onShuffle = { editIdentity = editIdentity.copy(birthdate = randomIdentityProvider.randomBirthdate()) },
-            )
+            DragonSettingsGroup(R.string.identity_birthdate) {
+                BirthdateField(
+                    value = editIdentity.birthdate.orEmpty(),
+                    onValueChange = { editIdentity = editIdentity.copy(birthdate = it) },
+                    onShuffle = { editIdentity = editIdentity.copy(birthdate = randomIdentityProvider.randomBirthdate()) },
+                )
 
-            PhoneField(
-                value = editIdentity.phone.orEmpty(),
-                onValueChange = { editIdentity = editIdentity.copy(phone = it) },
-                onShuffle = { editIdentity = editIdentity.copy(phone = randomIdentityProvider.randomPhone()) },
-            )
-
+            }
             DragonSettingsGroup(R.string.identity_address) {
                 ExpandableSection(addressSection) {
 
@@ -271,12 +267,11 @@ fun IdentityEditorScreen(
                         isLoading = isLoadingNearby,
                     )
 
-                    AutocompleteIdentityField(
+                    IdentityTextField(
                         value = editIdentity.name.orEmpty(),
                         onValueChange = { editIdentity = editIdentity.copy(name = it) },
                         onShuffle = { editIdentity = editIdentity.copy(name = randomIdentityProvider.randomName()) },
                         label = stringResource(R.string.identity_address_street),
-                        suggestions = RandomData.streets,
                         modifier = Modifier.weight(1f),
                     )
 
@@ -300,12 +295,11 @@ fun IdentityEditorScreen(
                         )
 
 
-                        AutocompleteIdentityField(
+                        IdentityTextField(
                             value = address?.city.orEmpty(),
                             onValueChange = { editAddress { old -> old.copy(city = it) } },
                             onShuffle = { editAddress { old -> old.copy(city = randomIdentityProvider.randomCity()) } },
                             label = stringResource(R.string.identity_address_city),
-                            suggestions = RandomData.cities,
                             modifier = Modifier.weight(1f),
                         )
                     }
@@ -319,12 +313,11 @@ fun IdentityEditorScreen(
                             modifier = Modifier.weight(1f),
                         )
 
-                        AutocompleteIdentityField(
+                        IdentityTextField(
                             value = address?.country.orEmpty(),
                             onValueChange = { editAddress { old -> old.copy(country = it) } },
                             onShuffle = { editAddress { old -> old.copy(country = randomIdentityProvider.randomCountry()) } },
                             label = stringResource(R.string.identity_address_country),
-                            suggestions = RandomData.countries,
                             modifier = Modifier.weight(1f),
                         )
                     }

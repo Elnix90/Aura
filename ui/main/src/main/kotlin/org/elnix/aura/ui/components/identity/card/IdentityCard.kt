@@ -1,4 +1,4 @@
-package org.elnix.aura.ui
+package org.elnix.aura.ui.components.identity.card
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.combinedClickable
@@ -14,17 +14,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.retain.retain
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import org.elnix.aura.base.utils.CopyPasteUtils.copyToClipboard
 import org.elnix.aura.database.entities.AddressEntity
 import org.elnix.aura.database.models.Identity
 import org.elnix.aura.i18n.R
-import org.elnix.aura.ktx.showToast
+import org.elnix.aura.ktx.toColor
+import org.elnix.aura.theme.AppObjectsColors
 import org.elnix.aura.ui.base.components.Spacer
 import org.elnix.aura.ui.dragon.components.DragonIconButton
 
@@ -43,10 +45,20 @@ import org.elnix.aura.ui.dragon.components.DragonIconButton
 @Composable
 fun IdentityCard(
     identity: Identity,
+    onDelete: () -> Unit,
     onClick: () -> Unit,
-    onLongClick: (() -> Unit)? = null,
+    onLongClick: (() -> Unit)? = null
 ) {
-    val context = LocalContext.current
+    val defaultContainerColor = CardDefaults.cardColors().containerColor
+
+    val backgroundColor = retain(identity.entity.color) {
+        try {
+            val idColor = identity.entity.color?.toColor() ?: return@retain null
+            idColor.compositeOver(defaultContainerColor)
+        } catch (_: Exception) {
+            null
+        }
+    }
 
     Card(
         modifier = Modifier
@@ -57,6 +69,9 @@ fun IdentityCard(
             ),
         shape = MaterialTheme.shapes.large,
         elevation = CardDefaults.cardElevation(3.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = backgroundColor ?: Color.Unspecified
+        )
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             IdentityCardTitle(identity)
@@ -97,12 +112,10 @@ fun IdentityCard(
                 horizontalArrangement = Arrangement.End,
             ) {
                 DragonIconButton(
-                    icon = R.drawable.copy,
-                    contentDescription = R.string.copy,
-                    onClick = {
-                        context.copyToClipboard(identity.summary())
-                        context.showToast(context.getString(R.string.identity_copied))
-                    },
+                    icon = R.drawable.delete_forever,
+                    contentDescription = R.string.delete_identity,
+                    colors = AppObjectsColors.cancelIconButtonColors(),
+                    onClick = onDelete
                 )
             }
         }
@@ -158,25 +171,3 @@ internal fun AddressEntity.summary(): String? =
         .joinToString(separator = ", ")
         .takeIf { it.isNotEmpty() }
 
-/**
- * Builds a multi line copy-able representation of every value of an identity.
- */
-internal fun Identity.summary(): String {
-    val lines = buildList {
-        listOfNotNull(name?.name, surname?.surname)
-            .joinToString(separator = " ")
-            .ifBlank { entity.label }
-            ?.takeIf { it.isNotBlank() }
-            ?.let { add(it) }
-
-        entity.label?.let { if (it != name?.name) add(it) }
-
-        email?.email?.let { add(it) }
-        phone?.phone?.let { add(it) }
-        birthdate?.birthdate?.let { add(it) }
-        address?.summary()?.let { add(it) }
-        customNoteDetail?.note?.let { add(it) }
-    }
-
-    return lines.filter { it.isNotBlank() }.joinToString(separator = "\n")
-}

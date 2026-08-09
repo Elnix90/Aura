@@ -18,9 +18,6 @@ import kotlin.random.Random
  */
 @Singleton
 public class RandomIdentityProvider @Inject constructor() {
-
-    public fun randomLabel(): String = RandomData.labels.random()
-
     public fun randomName(): String = RandomData.firstNames.random()
 
     public fun randomSurname(): String = RandomData.surnames.random()
@@ -90,8 +87,7 @@ public class RandomIdentityProvider @Inject constructor() {
         return "#%08X".format(argb)
     }
 
-    public fun randomizeAll(): IdentityValues = IdentityValues(
-        label = randomLabel(),
+    public fun IdentityValues?.randomizeAll(): IdentityValues = (this ?: IdentityValues()).copy(
         color = randomColorHex(),
         email = randomEmail(),
         name = randomName(),

@@ -1,4 +1,4 @@
-package org.elnix.aura.ui.components.phone
+package org.elnix.aura.ui.components.identity.phone
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.tween
@@ -183,12 +183,11 @@ internal fun PhoneField(
                 onShuffle()
             }
         },
-        colors = AppObjectsColors.outlinedTextFieldColors(
-            removeBorder = true,
-            backgroundColor = MaterialTheme.colorScheme.surface
-        ),
+        colors = AppObjectsColors.outlinedTextFieldColors(),
         shape = CircleShape,
-        modifier = Modifier.fillMaxSize(1f)
+        modifier = Modifier
+            .fillMaxSize(1f)
+            .padding(10.dp)
     )
 
 //    if (showPicker) {

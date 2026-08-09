@@ -1187,4 +1187,10 @@
     <string name="address_generated">Address filled from the map</string>
     <string name="pick_a_date">Pick a date</string>
     <string name="address_radius_desc">How far the random nearby address lookup will check</string>
+    <string name="notes">Notes</string>
+    <string name="note_placeholder">Add anything you need, supports multiline</string>
+    <string name="what_is_this_identity_for">What is this identity for?</string>
+    <string name="basic_infos">Basic infos</string>
+    <string name="delete_identity">Delete identity</string>
+    <string name="color_picker">Color picker</string>
 </resources>

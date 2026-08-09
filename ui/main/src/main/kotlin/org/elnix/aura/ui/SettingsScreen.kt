@@ -70,9 +70,9 @@ import org.elnix.aura.settings.stores.map.PrivateSettingsStore
 import org.elnix.aura.ui.base.activityViewModel
 import org.elnix.aura.ui.base.asState
 import org.elnix.aura.ui.base.compositionlocals.LocalNavigator
-import org.elnix.aura.ui.components.BetaVersionType
-import org.elnix.aura.ui.components.BetaVersionWarning
-import org.elnix.aura.ui.components.LocalePickerSheet
+import org.elnix.aura.ui.warning.BetaVersionType
+import org.elnix.aura.ui.warning.BetaVersionWarning
+import org.elnix.aura.ui.dialogs.LocalePickerSheet
 import org.elnix.aura.ui.dragon.components.DragonSettingsGroup
 import org.elnix.aura.ui.helpers.settings.ContributorItem
 import org.elnix.aura.ui.helpers.settings.RouteItem
