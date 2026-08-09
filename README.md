@@ -43,11 +43,12 @@
 
 Every shop you enter asks for your name, address and phone. Not because they need them, because they want a row in a database, and to trace you.
 This app lets you build as many identities as you like and hand each shop a different one. Generate your names, surnames, birthdates, addreses, emails, phones and notes. reuse any piece across identities, and only share the version of you that the shop is actually getting.
+
 ## Privacy & security
 
 * **No** data collection
-* Aura has not even access to internet -> it cannot steal your data
-* No permissions requested
+* Internet permission for fetching random addresses
+* Location permission to find the random addresses around you
 * All data stored locally (you can backup manually or use the auto backup feature)
 
 ---

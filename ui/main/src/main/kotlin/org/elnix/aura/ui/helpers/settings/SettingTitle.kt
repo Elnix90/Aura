@@ -102,7 +102,7 @@ fun SettingsTitle(
     title: String,
     moreOptions: ((() -> Unit) -> List<MoreOptions>)? = null,
     resetIcon: (() -> Unit)?,
-    helpIcon: () -> Unit,
+    helpIcon: (() -> Unit)?,
     onBack: () -> Unit
 ) {
 
@@ -115,11 +115,13 @@ fun SettingsTitle(
             ResetIcon(onReset = resetIcon)
         }
 
-        DragonIconButton(
-            onClick = helpIcon,
-            icon = R.drawable.help,
-            contentDescription = R.string.help
-        )
+        if (helpIcon != null) {
+            DragonIconButton(
+                onClick = helpIcon,
+                icon = R.drawable.help,
+                contentDescription = R.string.help
+            )
+        }
     }
 }
 

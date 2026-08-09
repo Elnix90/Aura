@@ -22,3 +22,11 @@ fun MoreIcon(enabled: Boolean = true, onReset: () -> Unit) {
         onClick = onReset
     )
 }
+@Composable
+fun ShuffleIcon(onClick: () -> Unit) {
+    DragonIconButton(
+        icon = R.drawable.shuffle,
+        contentDescription = R.string.shuffle_this_field,
+        onClick = onClick
+    )
+}

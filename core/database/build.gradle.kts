@@ -6,14 +6,11 @@ plugins {
 
 android {
     namespace = "org.elnix.aura.database"
+}
 
-    defaultConfig {
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments["room.schemaLocation"] = "$projectDir/schemas"
-            }
-        }
-    }
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+    arg("room.incremental", "true")
 }
 
 dependencies {
@@ -29,6 +26,9 @@ dependencies {
 
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
+
+    implementation(libs.okhttp)
+    implementation(libs.kotlinx.serialization.json)
 
 
     implementation(project(":core:i18n"))

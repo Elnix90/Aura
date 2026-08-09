@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.elnix.aura.database.entities.AddressEntity
@@ -18,14 +19,20 @@ import org.elnix.aura.database.entities.PhoneEntity
 import org.elnix.aura.database.entities.SurnameEntity
 import org.elnix.aura.database.models.Identity
 import org.elnix.aura.database.models.IdentityValues
+import org.elnix.aura.database.random.RandomIdentityProvider
+import org.elnix.aura.database.remote.NearbyAddressProvider
+import org.elnix.aura.database.remote.NearbyAddressResult
 import org.elnix.aura.database.repository.IdentityRepository
 import org.elnix.aura.models.utils.viewModelInitialized
+import org.elnix.aura.settings.stores.map.UiSettingsStore
 import javax.inject.Inject
 
 @HiltViewModel
 public class IdentitiesViewModel @Inject constructor(
     application: Application,
+    public val randomIdentityProvider: RandomIdentityProvider,
     private val repository: IdentityRepository,
+    private val nearbyAddressProvider: NearbyAddressProvider,
 ) : AndroidViewModel(application) {
 
     public val identities: StateFlow<List<Identity>> = repository.observeAllIdentities()
@@ -60,6 +67,16 @@ public class IdentitiesViewModel @Inject constructor(
     }
 
     public fun observeIdentity(id: Long): Flow<Identity?> = repository.observeIdentity(id)
+
+    private val radiusKm = UiSettingsStore.radiusKm.flow(application)
+    public fun randomNearbyAddress(
+        onResult: (NearbyAddressResult) -> Unit,
+    ) {
+        viewModelScope.launch {
+            val radiusMeters = radiusKm.first() * 1000
+            onResult(nearbyAddressProvider.randomNearbyAddress(radiusMeters))
+        }
+    }
 
     public fun createIdentity(
         values: IdentityValues,

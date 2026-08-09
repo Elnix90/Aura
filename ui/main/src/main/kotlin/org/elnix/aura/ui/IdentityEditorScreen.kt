@@ -1,0 +1,360 @@
+package org.elnix.aura.ui
+
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.retain.retain
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
+import org.elnix.aura.database.models.AddressData
+import org.elnix.aura.database.models.IdentityValues
+import org.elnix.aura.database.random.RandomData
+import org.elnix.aura.database.remote.NearbyAddressResult
+import org.elnix.aura.i18n.R
+import org.elnix.aura.ktx.showToast
+import org.elnix.aura.models.IdentitiesViewModel
+import org.elnix.aura.ui.base.activityViewModel
+import org.elnix.aura.ui.base.components.AnimatedFab
+import org.elnix.aura.ui.base.components.Spacer
+import org.elnix.aura.ui.base.compositionlocals.LocalNavigator
+import org.elnix.aura.ui.components.date.BirthdateField
+import org.elnix.aura.ui.components.phone.PhoneField
+import org.elnix.aura.ui.dragon.components.DragonButton
+import org.elnix.aura.ui.dragon.components.DragonSettingsGroup
+import org.elnix.aura.ui.dragon.expandable.ExpandableSection
+import org.elnix.aura.ui.dragon.expandable.rememberExpandableSection
+import org.elnix.aura.ui.dragon.model.ExpandableSectionMode
+import org.elnix.aura.ui.helpers.settings.SettingsScaffold
+
+
+@SuppressLint("LocalContextGetResourceValueCall")
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun IdentityEditorScreen(
+    isCreatingNew: Boolean,
+    initialValues: IdentityValues,
+    identitiesViewModel: IdentitiesViewModel = activityViewModel(),
+    onSave: (IdentityValues) -> Unit,
+) {
+    val ctx = LocalContext.current
+    val navigator = LocalNavigator.current
+    val randomIdentityProvider = identitiesViewModel.randomIdentityProvider
+
+    var editIdentity by retain(initialValues) { mutableStateOf(initialValues) }
+
+    var isLoadingNearby by remember { mutableStateOf(false) }
+    var shouldRequestPermission by remember { mutableStateOf(false) }
+
+    val addressSection = rememberExpandableSection(
+        title = stringResource(R.string.identity_address),
+        mode = ExpandableSectionMode.Expandable,
+    )
+
+    @SuppressLint("LocalContextGetResourceValueCall")
+    fun fetchNearbyAddress() {
+        if (isLoadingNearby) return
+        isLoadingNearby = true
+        identitiesViewModel.randomNearbyAddress { result ->
+            isLoadingNearby = false
+            when (result) {
+                is NearbyAddressResult.Success -> {
+                    val newAddress = editIdentity.address?.copy(
+                        street = result.address.street,
+                        houseNumber = result.address.houseNumber,
+                        city = result.address.city,
+                        postalCode = result.address.postalCode,
+                        state = result.address.state,
+                        country = result.address.country,
+                        additionalInfo = result.address.additionalInfo
+                    )
+
+                    editIdentity = editIdentity.copy(address = newAddress)
+                    ctx.showToast(ctx.getString(R.string.address_generated))
+                }
+
+                NearbyAddressResult.LocationUnavailable ->
+                    ctx.showToast(ctx.getString(R.string.location_unavailable))
+
+                NearbyAddressResult.NoAddressFound ->
+                    ctx.showToast(ctx.getString(R.string.no_address_found))
+
+                NearbyAddressResult.ServiceUnreachable ->
+                    ctx.showToast(ctx.getString(R.string.address_service_unreachable))
+            }
+        }
+    }
+
+    fun onRandomAddressClicked() {
+        val hasPermission =
+            ContextCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(ctx, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        if (hasPermission) {
+            fetchNearbyAddress()
+        } else {
+            shouldRequestPermission = true
+        }
+    }
+
+    val requestLocationPermission = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { grants ->
+        if (grants.values.any { it }) {
+            fetchNearbyAddress()
+        } else {
+            ctx.showToast(ctx.getString(R.string.location_permission_required))
+        }
+    }
+
+    LaunchedEffect(shouldRequestPermission) {
+        if (shouldRequestPermission) {
+            requestLocationPermission.launch(
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION),
+            )
+            shouldRequestPermission = false
+        }
+    }
+
+    fun randomizeAll() {
+        val old = editIdentity
+        editIdentity = randomIdentityProvider.randomizeAll().copy(
+            customNoteDetail = old.customNoteDetail
+        )
+    }
+
+    SettingsScaffold(
+        title = "",
+        helpText = null,
+        onReset = null,
+        resetText = null,
+        specialSettingsTitle = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 10.dp, vertical = 20.dp)
+            ) {
+
+                AnimatedFab(
+                    onClick = navigator::onBack,
+                    icon = R.drawable.close,
+                    containerColor = MaterialTheme.colorScheme.errorContainer
+                )
+
+                Text(
+                    text = stringResource(if (isCreatingNew) R.string.create_new_identity else R.string.edit_identity),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier
+                        .weight(1f)
+                        .basicMarquee(iterations = 2)
+                )
+
+                AnimatedFab(
+                    onClick = { onSave(editIdentity) },
+                    icon = R.drawable.save,
+                    containerColor = MaterialTheme.colorScheme.secondary
+                )
+            }
+        }
+    ) {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            DragonButton(
+                onClick = ::randomizeAll,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 10.dp, vertical = 2.dp),
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.casino),
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp),
+                )
+                Spacer(8.dp)
+                Column {
+                    Text(
+                        text = stringResource(R.string.randomize_all),
+                        style = MaterialTheme.typography.titleMedium,
+                    )
+                    Text(
+                        text = stringResource(R.string.randomize_all_description),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                }
+            }
+
+            IdentityTextField(
+                value = editIdentity.label.orEmpty(),
+                onValueChange = { editIdentity = editIdentity.copy(label = it) },
+                onShuffle = { editIdentity = editIdentity.copy(label = randomIdentityProvider.randomLabel()) },
+                label = stringResource(R.string.identity_label),
+                placeholder = stringResource(R.string.identity_label_placeholder),
+                modifier = Modifier.weight(1f),
+            )
+
+            EmailField(
+                value = editIdentity.email.orEmpty(),
+                onValueChange = { editIdentity = editIdentity.copy(email = it) },
+                onShuffle = { editIdentity = editIdentity.copy(email = randomIdentityProvider.randomEmail()) }
+            )
+
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                IdentityTextField(
+                    value = editIdentity.name.orEmpty(),
+                    onValueChange = { editIdentity = editIdentity.copy(name = it) },
+                    onShuffle = { editIdentity = editIdentity.copy(name = randomIdentityProvider.randomName()) },
+                    label = stringResource(R.string.identity_name),
+                    modifier = Modifier.weight(1f),
+                )
+
+                IdentityTextField(
+                    value = editIdentity.surname.orEmpty(),
+                    onValueChange = { editIdentity = editIdentity.copy(surname = it) },
+                    onShuffle = { editIdentity = editIdentity.copy(surname = randomIdentityProvider.randomSurname()) },
+                    label = stringResource(R.string.identity_surname),
+                    modifier = Modifier.weight(1f),
+                )
+            }
+
+            BirthdateField(
+                value = editIdentity.birthdate.orEmpty(),
+                onValueChange = { editIdentity = editIdentity.copy(birthdate = it) },
+                onShuffle = { editIdentity = editIdentity.copy(birthdate = randomIdentityProvider.randomBirthdate()) },
+            )
+
+            PhoneField(
+                value = editIdentity.phone.orEmpty(),
+                onValueChange = { editIdentity = editIdentity.copy(phone = it) },
+                onShuffle = { editIdentity = editIdentity.copy(phone = randomIdentityProvider.randomPhone()) },
+            )
+
+            DragonSettingsGroup(R.string.identity_address) {
+                ExpandableSection(addressSection) {
+
+                    val address by rememberUpdatedState(editIdentity.address)
+                    fun editAddress(new: (old: AddressData) -> AddressData) {
+                        val newAddress = new(editIdentity.address ?: AddressData())
+                        editIdentity = editIdentity.copy(address = newAddress)
+                    }
+
+                    RandomAddressSection(
+                        onGenerate = ::onRandomAddressClicked,
+                        isLoading = isLoadingNearby,
+                    )
+
+                    AutocompleteIdentityField(
+                        value = editIdentity.name.orEmpty(),
+                        onValueChange = { editIdentity = editIdentity.copy(name = it) },
+                        onShuffle = { editIdentity = editIdentity.copy(name = randomIdentityProvider.randomName()) },
+                        label = stringResource(R.string.identity_address_street),
+                        suggestions = RandomData.streets,
+                        modifier = Modifier.weight(1f),
+                    )
+
+                    IdentityTextField(
+                        value = address?.houseNumber.orEmpty(),
+                        onValueChange = { editAddress { old -> old.copy(houseNumber = it) } },
+                        onShuffle = { editAddress { old -> old.copy(houseNumber = randomIdentityProvider.randomHouseNumber()) } },
+                        label = stringResource(R.string.identity_address_house_number),
+                        keyboardType = KeyboardType.Number,
+                        modifier = Modifier.weight(1f),
+                    )
+
+
+                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                        IdentityTextField(
+                            value = address?.postalCode.orEmpty(),
+                            onValueChange = { editAddress { old -> old.copy(postalCode = it) } },
+                            onShuffle = { editAddress { old -> old.copy(postalCode = randomIdentityProvider.randomPostalCode()) } },
+                            label = stringResource(R.string.identity_address_postal_code),
+                            modifier = Modifier.weight(1f),
+                        )
+
+
+                        AutocompleteIdentityField(
+                            value = address?.city.orEmpty(),
+                            onValueChange = { editAddress { old -> old.copy(city = it) } },
+                            onShuffle = { editAddress { old -> old.copy(city = randomIdentityProvider.randomCity()) } },
+                            label = stringResource(R.string.identity_address_city),
+                            suggestions = RandomData.cities,
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+
+                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                        IdentityTextField(
+                            value = address?.state.orEmpty(),
+                            onValueChange = { editAddress { old -> old.copy(state = it) } },
+                            onShuffle = { editAddress { old -> old.copy(state = randomIdentityProvider.randomCountry()) } },
+                            label = stringResource(R.string.identity_address_state),
+                            modifier = Modifier.weight(1f),
+                        )
+
+                        AutocompleteIdentityField(
+                            value = address?.country.orEmpty(),
+                            onValueChange = { editAddress { old -> old.copy(country = it) } },
+                            onShuffle = { editAddress { old -> old.copy(country = randomIdentityProvider.randomCountry()) } },
+                            label = stringResource(R.string.identity_address_country),
+                            suggestions = RandomData.countries,
+                            modifier = Modifier.weight(1f),
+                        )
+                    }
+
+                    IdentityTextField(
+                        value = address?.additionalInfo.orEmpty(),
+                        onValueChange = { editAddress { old -> old.copy(additionalInfo = it) } },
+                        onShuffle = null,
+                        label = stringResource(R.string.identity_address_additional_info),
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+            }
+
+            NotesField(
+                value = editIdentity.customNoteDetail.orEmpty(),
+                onValueChange = { editIdentity = editIdentity.copy(customNoteDetail = it) }
+            )
+        }
+    }
+}
+
+//private fun buildEmail(localPart: String, domain: String): String? = when {
+//    localPart.isNotBlank() && domain.isNotBlank() -> "$localPart@$domain"
+//    localPart.isNotBlank() -> localPart
+//    else -> domain.blankToNull()
+//}
+//
+//private fun String.blankToNull(): String? = takeIf { it.isNotBlank() }
+//
+//private fun AddressData.isNotEmpty(): Boolean =
+//    listOfNotNull(street, houseNumber, city, postalCode, state, country, additionalInfo)
+//        .any { it.isNotBlank() }

@@ -2,6 +2,7 @@ package org.elnix.aura.database.models
 
 public data class IdentityValues(
     public val label: String? = null,
+    public val color: String? = null,
     public val email: String? = null,
     public val name: String? = null,
     public val surname: String? = null,

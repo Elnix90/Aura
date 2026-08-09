@@ -16,7 +16,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,7 +26,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.elnix.aura.base.navigaton.NavigationRoute
 import org.elnix.aura.database.models.Identity
-import org.elnix.aura.database.models.IdentityValues
 import org.elnix.aura.i18n.R
 import org.elnix.aura.models.IdentitiesViewModel
 import org.elnix.aura.ui.base.activityViewModel
@@ -55,8 +53,6 @@ fun MainScreen(
 
     val identities by identitiesViewModel.identities.collectAsState()
 
-    var editingIdentity by remember { mutableStateOf<Identity?>(null) }
-    var addingNew by rememberSaveable { mutableStateOf(false) }
     var identityToDelete by remember { mutableStateOf<Identity?>(null) }
 
     SettingsScaffold(
@@ -75,7 +71,9 @@ fun MainScreen(
                 minSize = 70.dp,
                 containerColor = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.align(Alignment.BottomEnd)
-            ) { addingNew = true }
+            ) {
+                navigator.navigate(NavigationRoute.EditIdentity(null))
+            }
         }
     ) {
         AnimatedContent(identities.isEmpty()) { isEmpty ->
@@ -90,39 +88,14 @@ fun MainScreen(
                     items(identities, key = { it.entity.id }) { identity ->
                         IdentityCard(
                             identity = identity,
-                            onClick = { editingIdentity = identity },
+                            onClick = {
+                                navigator.navigate(NavigationRoute.EditIdentity(identity.entity.id))
+                            },
                             onLongClick = { identityToDelete = identity },
                         )
                     }
                 }
             }
-        }
-    }
-
-    when {
-        addingNew -> {
-            IdentityEditorSheet(
-                initialValues = IdentityValues(),
-                onDismiss = { addingNew = false },
-                isCreatingNew = true,
-                onSave = {
-                    addingNew = false
-                    identitiesViewModel.createIdentity(it)
-                },
-            )
-        }
-
-        editingIdentity != null -> {
-            val identity = editingIdentity
-            IdentityEditorSheet(
-                initialValues = identity!!.toValues(),
-                onDismiss = { editingIdentity = null },
-                isCreatingNew = false,
-                onSave = {
-                    editingIdentity = null
-                    identitiesViewModel.updateIdentity(identity.entity.id, it)
-                },
-            )
         }
     }
 

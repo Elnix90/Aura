@@ -67,6 +67,7 @@ public class IdentityRepository @Inject constructor(
         identityDao.insert(
             IdentityEntity(
                 label = values.label?.trim()?.takeIf { it.isNotEmpty() },
+                color = values.color?.trim()?.takeIf { it.isNotEmpty() },
                 emailId = references.emailId,
                 nameId = references.nameId,
                 surnameId = references.surnameId,
@@ -86,6 +87,7 @@ public class IdentityRepository @Inject constructor(
         val references = resolveReferences(values)
         val updated = current.copy(
             label = values.label?.trim()?.takeIf { it.isNotEmpty() },
+            color = values.color?.trim()?.takeIf { it.isNotEmpty() },
             emailId = references.emailId,
             nameId = references.nameId,
             surnameId = references.surnameId,

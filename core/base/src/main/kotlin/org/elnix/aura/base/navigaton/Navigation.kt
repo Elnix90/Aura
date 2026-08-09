@@ -27,7 +27,7 @@ public sealed class NavigationRoute : NavKey {
     @SerialName("EditIdentity")
     @Serializable
     public data class EditIdentity(
-        val id: Long
+        val id: Long?
     ) : NavigationRoute() {
         override val resId: Int = R.string.edit_identity
         override val icon: Int = R.drawable.edit_rounded

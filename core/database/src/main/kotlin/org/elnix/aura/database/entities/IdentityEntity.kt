@@ -64,6 +64,7 @@ import androidx.room.PrimaryKey
 
 public data class IdentityEntity(
     public val label: String? = null,
+    public val color: String? = null,
     public val emailId: Long? = null,
     public val nameId: Long? = null,
     public val surnameId: Long? = null,

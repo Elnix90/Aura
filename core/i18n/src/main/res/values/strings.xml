@@ -108,7 +108,6 @@
     <string name="font_confirm_delete">Confirm (%1$d)</string>
     <string name="font_search_placeholder">Search fonts…</string>
     <string name="font_downloading">Downloading %1$s…</string>
-
     <string name="font_cat_all">ALL</string>
     <string name="font_cat_serif">SERIF</string>
     <string name="font_cat_sans_serif">SANS-SERIF</string>
@@ -344,8 +343,6 @@
     <string name="open_kb">Open keyboard</string>
     <string name="open_settings">Open Settings</string>
     <string name="clear_all">Clear all</string>
-
-    <!--  ─────────────  Wellbeing Section  ─────────────  -->
     <string name="wellbeing">Digital Wellbeing</string>
     <string name="wellbeing_help">Take control of your digital habits. Pause before opening distracting apps and reflect on your usage.</string>
     <string name="social_media_pause">Social Media Pause</string>
@@ -360,8 +357,6 @@
     <string name="no_paused_apps">No apps paused yet. Add apps that distract you.</string>
     <string name="usage_permission_required">Usage Access Permission</string>
     <string name="usage_permission_description">To display your real usage statistics, Dragon Launcher needs access to app usage data. This helps you be more aware of the time you spend on apps.</string>
-
-    <!--  ─────────────  Digital Pause Screen  ─────────────  -->
     <string name="pause_breathe_1">Take a moment to breathe…</string>
     <string name="pause_breathe_2">Be present in this moment…</string>
     <string name="pause_breathe_3">Is this what you really need right now?</string>
@@ -395,18 +390,13 @@
     <string name="popup_show_today_time_desc">Total time spent on this app today</string>
     <string name="popup_show_remaining_time">Show remaining time</string>
     <string name="popup_show_remaining_time_desc">Time left before auto-return (if enabled)</string>
-
-    <!--  Popup Display Labels  -->
     <string name="popup_session_label">Session</string>
     <string name="popup_today_label">Today</string>
     <string name="popup_remaining_label">Remaining</string>
     <string name="popup_no_limit">No limit</string>
-
     <string name="reminder_notification_title">Still on %s</string>
     <string name="reminder_notification_text">You\'ve been using %1$s for %2$s. Maybe it\'s time for a break?</string>
     <string name="reminder_overlay_subtext">Take a break, your eyes will thank you 🌿</string>
-
-    <!--  ─────────────  Wellbeing: Return to Launcher  ─────────────  -->
     <string name="return_to_launcher_title">Auto Return to Launcher</string>
     <string name="return_to_launcher_description">Set a time limit before opening a paused app. Dragon brings you back when time\'s up.</string>
     <string name="time_limit_picker_title">How long do you want to use this app?</string>
@@ -437,7 +427,6 @@
     <string name="random_shape">Random Shape</string>
     <string name="grid_size">Grid Size</string>
     <string name="grid_size_desc">The number of app icons in the width on the drawer</string>
-
     <string name="icons_spacing_vertical">icons Spacing vertical</string>
     <string name="icons_spacing_horizontal">icons Spacing horizontal</string>
     <string name="depth">Depth</string>
@@ -446,28 +435,22 @@
     <string name="dynamic_colors">Dynamic Colors</string>
     <string name="dynamic_colors_desc">Use android dynamic colors to provide you a dynamic colors scheme</string>
     <string name="use_pure_black_background">Use pure black background</string>
-
-
-    <!--  ───────────── Colors  ─────────────  -->
     <string name="primary_colors_section">Primary Colors</string>
     <string name="primary_color">Primary</string>
     <string name="on_primary_color">On Primary</string>
     <string name="primary_container_color">Primary Container</string>
     <string name="on_primary_container_color">On Primary Container</string>
     <string name="inverse_primary_color">Inverse Primary</string>
-
     <string name="secondary_colors_section">Secondary Colors</string>
     <string name="secondary_color">Secondary</string>
     <string name="on_secondary_color">On Secondary</string>
     <string name="secondary_container_color">Secondary Container</string>
     <string name="on_secondary_container_color">On Secondary Container</string>
-
     <string name="tertiary_colors_section">Tertiary Colors</string>
     <string name="tertiary_color">Tertiary</string>
     <string name="on_tertiary_color">On Tertiary</string>
     <string name="tertiary_container_color">Tertiary Container</string>
     <string name="on_tertiary_container_color">On Tertiary Container</string>
-
     <string name="background_surface_colors_section">Background / Surface Colors</string>
     <string name="background_color">Background</string>
     <string name="on_background_color">On Background</string>
@@ -478,18 +461,15 @@
     <string name="surface_tint_color">Surface Tint</string>
     <string name="inverse_surface_color">Inverse Surface</string>
     <string name="inverse_on_surface_color">Inverse On Surface</string>
-
     <string name="error_colors_section">Error Colors</string>
     <string name="error_color">Error</string>
     <string name="on_error_color">On Error</string>
     <string name="error_container_color">Error Container</string>
     <string name="on_error_container_color">On Error Container</string>
-
     <string name="outline_colors_section">Outline / Misc Colors</string>
     <string name="outline_color">Outline</string>
     <string name="outline_variant_color">Outline Variant</string>
     <string name="scrim_color">Scrim</string>
-
     <string name="surface_container_colors_section">Surface Container Colors</string>
     <string name="surface_bright_color">Surface Bright</string>
     <string name="surface_container_color">Surface Container</string>
@@ -498,7 +478,6 @@
     <string name="surface_container_low_color">Surface Container Low</string>
     <string name="surface_container_lowest_color">Surface Container Lowest</string>
     <string name="surface_dim_color">Surface Dim</string>
-
     <string name="fixed_colors_section">Fixed Colors</string>
     <string name="primary_fixed_color">Primary Fixed</string>
     <string name="primary_fixed_dim_color">Primary Fixed Dim</string>
@@ -532,8 +511,6 @@
     <string name="category_grid_width">Category grid width</string>
     <string name="grid_settings">Grid Settings</string>
     <string name="category_cells">Category cells</string>
-
-    <!--  ─────────────  Multi Select  ─────────────  -->
     <string name="multi_select_count">%d selected</string>
     <string name="add_all_auto">Auto place on circle</string>
     <string name="add_all_manual">Place one by one</string>
@@ -541,12 +518,8 @@
     <string name="tap_circle_to_place">Tap on the circle to place the app</string>
     <string name="multi_select_drawer_hint">💡 Long press an app to select multiple at once</string>
     <string name="deselect_all">Deselect all</string>
-
-    <!--  ─────────────  Shortcuts Settings  ─────────────  -->
     <string name="prompt_shortcuts_when_adding_app">Prompt for shortcuts when adding an app</string>
     <string name="prompt_shortcuts_when_adding_app_desc">When enabled, you\'ll be asked to choose between the app or its shortcuts. When disabled, the app is added directly.</string>
-
-    <!--  ─────────────  Lock Settings  ─────────────  -->
     <string name="lock_settings_description">Protect your launcher settings with a security method</string>
     <string name="lock_method">Lock Method</string>
     <string name="lock_none">None</string>
@@ -565,13 +538,9 @@
     <string name="could_not_find_activity">Could not find activity to unlock</string>
     <string name="authentication_failed">Authentication failed</string>
     <string name="authentication_error">Authentication error: %s</string>
-
-    <!--  ─────────────  Drawer Workspace Selection  ─────────────  -->
     <string name="select_default_workspace">Select default workspace</string>
     <string name="select_workspace_hint">Choose which workspace opens by default. You can always switch by swiping left or right in the drawer.</string>
     <string name="workspace_default">Default</string>
-
-    <!--  ─────────────  Pinned Shortcuts  ─────────────  -->
     <string name="pinned_shortcut_added">Shortcut "%s" added to your circles</string>
     <string name="pinned_shortcut_failed">Failed to add shortcut</string>
     <string name="pinned_shortcut_already_exists">"%s" shortcut is already on your circles</string>
@@ -580,8 +549,6 @@
     <string name="select_shortcut_action_title">Select action for %1$s</string>
     <string name="no_extra_shortcuts">No extra actions available.</string>
     <string name="just_open_app">Just open %1$s</string>
-
-    <!--  ─────────────  Recently Used Apps  ─────────────  -->
     <string name="recently_used_apps">Recently used apps</string>
     <string name="show_recently_used_apps">Show recently used apps</string>
     <string name="show_recently_used_apps_desc">Display recently used apps at the top of the app drawer</string>
@@ -625,38 +592,28 @@
     <string name="app_info_cache_key">Cache key = %1$s</string>
     <string name="app_info_installer_package">Installer package key = %1$s</string>
     <string name="no_apps">No apps</string>
-
     <string name="activate_debug_mode">Activate Debug Mode</string>
     <string name="activate_debug_mode_desc">Enable debug features across the app</string>
-
     <string name="show_debug_infos">Show debug infos</string>
     <string name="show_debug_infos_desc">Display debug information globally</string>
-
     <string name="show_debug_infos_settings">Show debug infos in settings page</string>
     <string name="show_debug_infos_settings_desc">Display debug information inside settings</string>
-
     <string name="show_debug_infos_widgets">Show debug infos in widgets page</string>
     <string name="show_debug_infos_widgets_desc">Display debug information inside widgets</string>
-
     <string name="show_debug_infos_workspace">Show debug infos in workspace page</string>
     <string name="show_debug_infos_workspace_desc">Display debug information in workspace</string>
-
     <string name="has_initialized">Has initialized</string>
-
     <string name="use_accessibility_instead_of_context">Use accessibility instead of context</string>
     <string name="use_accessibility_instead_of_context_desc">Expand action panel using accessibility instead of context</string>
-
     <string name="auto_raise_dragon_on_system_launcher">Auto launch Dragon on system launcher</string>
     <string name="auto_raise_dragon_on_system_launcher_desc">Automatically raise Dragon when on the system launcher (requires accessibility)</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="store_reset">Stores reset</string>
     <string name="debug_infos">Debug Infos</string>
-
     <string name="private_space_debug_info">Private space debug info</string>
     <string name="private_space_debug_info_desc">Display private space state debug infos on top of everything</string>
     <string name="super_warning_mode">Super Warning mode</string>
     <string name="super_warning_mode_desc">Do something funny when you enter a wrong pin</string>
-
     <string name="super_warning_mode_sound">Super Warning mode + sound</string>
     <string name="super_warning_mode_sound_desc">Adds the sound</string>
     <string name="alarm_sound">Alarm Sound</string>
@@ -664,16 +621,11 @@
     <string name="metal_pipes_sound_desc">Play metal pipes sound when wrong pin entered</string>
     <string name="vibrate_on_error">Vibrate on error</string>
     <string name="vibrate_on_error_desc">Launches an infinite vibration upon pin error</string>
-
-
     <string name="drawer_pull_down_settings">Pull Down Settings</string>
-
     <string name="pull_down_animations">Pull-down Animations</string>
     <string name="pull_down_animations_desc">Enable or disable animations when pulling down the drawer</string>
-
     <string name="pull_down_wallpaper_dim">Pull-down Wallpaper Dim</string>
     <string name="pull_down_wallpaper_dim_desc">Dim the wallpaper when the drawer is pulled down</string>
-
     <string name="pull_down_scale_in">Pull-down Scale In</string>
     <string name="pull_down_scale_in_desc">Scale icons when the drawer is pulled down</string>
     <string name="action_settings">Action Settings</string>
@@ -681,7 +633,6 @@
     <string name="more">More</string>
     <string name="reload">Reload</string>
     <string name="select_icon">Select Icon</string>
-
     <string name="max_notification_icons">Max notification icons</string>
     <string name="use_differential_loading_private_space">Use Differential loading private space</string>
     <string name="use_differential_loading_private_space_desc">Toggle this when private apps appear in the user workspace, otherwise keep it unchecked for performances</string>
@@ -732,7 +683,6 @@
     <string name="please_enable_accessibility_services_to_use_that_feature">Please enable accessibility service to use that feature</string>
     <string name="backup_location">Backup Location</string>
     <string name="backup_location_desc">Tap to select destination</string>
-
     <string name="backup_triggered">Backup triggered manually</string>
     <string name="auto_backup_desc">Automate backup generation to local storage</string>
     <string name="select_all">Select All</string>
@@ -871,11 +821,8 @@
     <string name="add_current_theme">Add current theme</string>
     <string name="test_mode_validate">Keep</string>
     <string name="test_mode_cancel">Restore</string>
-
     <string name="disable">Disable</string>
     <string name="disabled">Disabled</string>
-
-    <!--  Live Nest  -->
     <string name="live_nest">Live Nest</string>
     <string name="live_nest_enabled">Live Nest enabled</string>
     <string name="live_nest_disabled">Live Nest disabled</string>
@@ -894,7 +841,6 @@
     <string name="hold_and_run_enable">Enable Hold &amp; Run</string>
     <string name="hold_and_run_custom_action">Custom Hold &amp; Run action</string>
     <string name="hold_and_run_custom_action_desc">Off: uses this point’s main action. On: pick a different action (e.g. another app).</string>
-    <!--  Cycle Actions  -->
     <string name="cycle_actions_add_stage">Add Stage</string>
     <string name="cycle_actions_stage">Stage %1$d</string>
     <string name="cycle_actions_delay">Extra hold to reach this stage (ms)</string>
@@ -1176,4 +1122,69 @@
     <string name="identity_updated">Identity updated</string>
     <string name="identity_deleted">Identity deleted</string>
     <string name="identity_copied">Copied to clipboard</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="shuffle_this_field">Randomize this field</string>
+    <string name="randomize_all">Randomize all</string>
+    <string name="randomize_all_description">Fills every field with random values from the built-in lists</string>
+    <string name="email_placeholder">example@email.com</string>
+    <string name="email_domain">Domain</string>
+    <string name="email_domain_placeholder">domain.com</string>
+    <string name="phone_country">Country</string>
+    <string name="phone_number">Number</string>
+    <string name="phone_country_picker_title">Choose a country</string>
+    <string name="phone_country_search">Search name or code</string>
+    <string name="pick_date">Pick a date</string>
+    <string name="country_united_states">United States</string>
+    <string name="country_canada">Canada</string>
+    <string name="country_united_kingdom">United Kingdom</string>
+    <string name="country_ireland">Ireland</string>
+    <string name="country_france">France</string>
+    <string name="country_germany">Germany</string>
+    <string name="country_spain">Spain</string>
+    <string name="country_italy">Italy</string>
+    <string name="country_portugal">Portugal</string>
+    <string name="country_netherlands">Netherlands</string>
+    <string name="country_belgium">Belgium</string>
+    <string name="country_switzerland">Switzerland</string>
+    <string name="country_austria">Austria</string>
+    <string name="country_sweden">Sweden</string>
+    <string name="country_norway">Norway</string>
+    <string name="country_denmark">Denmark</string>
+    <string name="country_finland">Finland</string>
+    <string name="country_poland">Poland</string>
+    <string name="country_czech_republic">Czech Republic</string>
+    <string name="country_greece">Greece</string>
+    <string name="country_turkey">Turkey</string>
+    <string name="country_russia">Russia</string>
+    <string name="country_ukraine">Ukraine</string>
+    <string name="country_israel">Israel</string>
+    <string name="country_india">India</string>
+    <string name="country_australia">Australia</string>
+    <string name="country_new_zealand">New Zealand</string>
+    <string name="country_japan">Japan</string>
+    <string name="country_south_korea">South Korea</string>
+    <string name="country_china">China</string>
+    <string name="country_brazil">Brazil</string>
+    <string name="country_mexico">Mexico</string>
+    <string name="country_argentina">Argentina</string>
+    <string name="country_south_africa">South Africa</string>
+    <string name="country_egypt">Egypt</string>
+    <string name="country_nigeria">Nigeria</string>
+    <string name="country_saudi_arabia">Saudi Arabia</string>
+    <string name="country_united_arab_emirates">United Arab Emirates</string>
+    <string name="country_singapore">Singapore</string>
+    <string name="country_hong_kong">Hong Kong</string>
+    <string name="random_address_nearby">Random address nearby</string>
+    <string name="random_address_nearby_description">Picks a random street from OpenStreetMap within the chosen radius of your location</string>
+    <string name="address_radius">Radius (km)</string>
+    <string name="location_permission_required">Location permission required</string>
+    <string name="location_permission_message">Location access is needed to find a random address near you.</string>
+    <string name="grant_permission">Grant</string>
+    <string name="generating_address">Finding a random address nearby…</string>
+    <string name="no_address_found">No street found nearby. Try a larger radius.</string>
+    <string name="location_unavailable">Could not determine your current location.</string>
+    <string name="address_service_unreachable">Could not reach the address service. Check your connection.</string>
+    <string name="address_generated">Address filled from the map</string>
+    <string name="pick_a_date">Pick a date</string>
+    <string name="address_radius_desc">How far the random nearby address lookup will check</string>
 </resources>

@@ -12,6 +12,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
@@ -19,7 +21,11 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 import org.elnix.aura.base.navigaton.NavigationRoute
+import org.elnix.aura.database.models.Identity
+import org.elnix.aura.database.models.IdentityValues
+import org.elnix.aura.models.IdentitiesViewModel
 import org.elnix.aura.ui.base.Navigator
+import org.elnix.aura.ui.base.activityViewModel
 import org.elnix.aura.ui.base.compositionlocals.LocalNavigator
 import org.elnix.aura.ui.base.compositionlocals.ProvideGlobalCompositionLocals
 import org.elnix.aura.ui.dialogs.GoogleLockingWarningDialog
@@ -39,7 +45,9 @@ import org.elnix.aura.ui.whatsnew.WhatsNewBottomSheet
 
 @SuppressLint("LocalContextGetResourceValueCall")
 @Composable
-fun MainAppUi() {
+fun MainAppUi(
+    identitiesViewModel: IdentitiesViewModel = activityViewModel()
+) {
     val startScreen = NavigationRoute.Main
     val backStack = rememberNavBackStack(startScreen)
 
@@ -101,6 +109,27 @@ fun MainAppUi() {
                         entry<NavigationRoute.Debug>(metadata = horizontalMetadata) { DebugTab() }
                         entry<NavigationRoute.Logs>(metadata = horizontalMetadata) { LogsTab() }
                         entry<NavigationRoute.LogsViewer>(metadata = horizontalMetadata) { key -> LogsViewerScreen(key.filename) }
+                        entry<NavigationRoute.EditIdentity>(metadata = horizontalMetadata) { key ->
+                            val isCreatingNew = key.id == null
+
+                            val identity: State<Identity?>? = if (isCreatingNew) {
+                                null
+                            } else {
+                                identitiesViewModel.observeIdentity(key.id!!).collectAsState(null)
+                            }
+
+                            IdentityEditorScreen(
+                                initialValues = identity?.value?.toValues() ?: IdentityValues(),
+                                isCreatingNew = isCreatingNew,
+                                onSave = { values ->
+                                    if (isCreatingNew) {
+                                        identitiesViewModel.createIdentity(values) { navigator.onBack() }
+                                    } else {
+                                        identitiesViewModel.updateIdentity(key.id!!, values) { navigator.onBack() }
+                                    }
+                                },
+                            )
+                        }
                     }
                 )
 

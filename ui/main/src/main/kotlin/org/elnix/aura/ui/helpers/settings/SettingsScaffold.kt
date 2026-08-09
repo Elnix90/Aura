@@ -45,7 +45,7 @@ import org.elnix.aura.ui.dragon.dialogs.UserValidation
 @Composable
 fun SettingsScaffold(
     title: String,
-    helpText: String,
+    helpText: String?,
     onReset: (() -> Unit)?,
     modifier: Modifier = Modifier,
     onBack: (() -> Unit)? = null,
@@ -105,7 +105,9 @@ fun SettingsScaffold(
                     SettingsTitle(
                         title = title,
                         moreOptions = moreOptions,
-                        helpIcon = { showHelpDialog = true },
+                        helpIcon = if (helpText != null) {
+                            { showHelpDialog = true }
+                        } else null,
                         resetIcon = if (onReset != null) {
                             { showResetDialog = true }
                         } else null,

@@ -23,6 +23,7 @@ public data class Identity(
 ) {
     public fun toValues(): IdentityValues = IdentityValues(
         label = entity.label,
+        color = entity.color,
         email = email?.email,
         name = name?.name,
         surname = surname?.surname,
