@@ -1,4 +1,4 @@
-package org.elnix.aura.ui.components
+package org.elnix.aura.ui.dialogs
 
 import android.app.LocaleConfig
 import android.app.LocaleManager
