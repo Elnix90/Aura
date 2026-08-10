@@ -1,7 +1,13 @@
+import org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode
+
 plugins {
     alias(libs.plugins.aura.library)
     alias(libs.plugins.aura.serialization)
     alias(libs.plugins.settings) // My plugin 🤎
+}
+
+kotlin {
+    explicitApi = ExplicitApiMode.Disabled
 }
 
 android {

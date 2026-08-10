@@ -1193,4 +1193,6 @@
     <string name="basic_infos">Basic infos</string>
     <string name="delete_identity">Delete identity</string>
     <string name="color_picker">Color picker</string>
+    <string name="linear_interpolation_for_card_colors">Linear interpolation for the card colors</string>
+    <string name="linear_interpolation_for_card_colors_desc">How much the card color is mixed with the surface theme color to produce a  clean color that fit the global theme</string>
 </resources>

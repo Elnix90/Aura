@@ -42,7 +42,7 @@ private fun systemColorScheme(): ColorScheme {
 
 @Composable
 fun rememberCurrentColorScheme(): ColorScheme {
-    val defaultTheme by ColorModesSettingsStore.defaultTheme.asState()
+    val defaultTheme by ColorModesSettingsStore.theme.asState()
     val systemScheme = systemColorScheme()
 
     return remember(
