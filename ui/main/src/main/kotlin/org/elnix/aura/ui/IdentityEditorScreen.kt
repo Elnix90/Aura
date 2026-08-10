@@ -67,6 +67,7 @@ import org.elnix.aura.ui.components.identity.phone.PhoneField
 import org.elnix.aura.ui.dialogs.ColorPickerDialog
 import org.elnix.aura.ui.dragon.components.DragonButton
 import org.elnix.aura.ui.dragon.components.DragonSettingsGroup
+import org.elnix.aura.ui.dragon.components.ResetIcon
 import org.elnix.aura.ui.dragon.expandable.ExpandableSection
 import org.elnix.aura.ui.dragon.expandable.rememberExpandableSection
 import org.elnix.aura.ui.dragon.model.ExpandableSectionMode
@@ -182,7 +183,6 @@ fun IdentityEditorScreen(
         onReset = null,
         resetText = null,
         specialSettingsTitle = {
-
             BaseSettingsTitle(
                 title = stringResource(if (isCreatingNew) R.string.create_new_identity else R.string.edit_identity),
                 onBack = navigator::onBack,
@@ -300,6 +300,10 @@ fun IdentityEditorScreen(
                         )
                         Spacer(5.dp)
                         Text(stringResource(R.string.color_selector))
+                    }
+
+                    ResetIcon {
+                        editIdentity = editIdentity.copy(color = null)
                     }
 
                     Box(
