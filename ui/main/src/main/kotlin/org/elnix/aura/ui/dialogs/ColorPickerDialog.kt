@@ -1,5 +1,6 @@
 package org.elnix.aura.ui.dialogs
 
+import android.content.ClipData
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,18 +26,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.graphics.toColorInt
 import com.github.skydoves.colorpicker.compose.HsvColorPicker
 import com.github.skydoves.colorpicker.compose.rememberColorPickerController
 import kotlinx.coroutines.launch
 import org.elnix.aura.i18n.R
 import org.elnix.aura.ktx.randomColor
+import org.elnix.aura.ktx.toColor
 import org.elnix.aura.ui.base.animation.Icon
 import org.elnix.aura.ui.base.animation.rememberAnimatedIcon
 
@@ -45,7 +46,7 @@ import org.elnix.aura.ui.base.animation.rememberAnimatedIcon
 fun ColorPickerDialog(
     initialColor: Color? = null,
     onDismissRequest: () -> Unit,
-    onAddNewColor: (Int) -> Unit
+    onAddNewColor: (Color) -> Unit
 ) {
     val clipboardManager = LocalClipboard.current
     val scope = rememberCoroutineScope()
@@ -70,7 +71,7 @@ fun ColorPickerDialog(
         confirmButton = {
             TextButton(
                 onClick = {
-                    onAddNewColor(controller.selectedColor.value.toArgb())
+                    onAddNewColor(controller.selectedColor.value)
                     onDismissRequest()
                 }
             ) {
@@ -88,7 +89,21 @@ fun ColorPickerDialog(
             val context = LocalContext.current
 
             fun copyHexTextToClipboard() {
-
+                scope.launch {
+                    try {
+                        clipboardManager.setClipEntry(
+                            ClipEntry(
+                                ClipData.newPlainText(
+                                    "hexCode",
+                                    "#$hexCode"
+                                )
+                            )
+                        )
+                        copyIconStatus.setSuccess()
+                    } catch (_: Exception) {
+                        copyIconStatus.setError()
+                    }
+                }
             }
 
             Column(
@@ -131,16 +146,19 @@ fun ColorPickerDialog(
 
                     pastingIconStatus.Icon(R.drawable.paste) {
                         scope.launch {
-                            val clip = clipboardManager.getClipEntry()?.clipData ?: return@launch
-                            if (clip.itemCount == 0) return@launch
+                            val clip = clipboardManager.getClipEntry()?.clipData ?: run {
+                                pastingIconStatus.setError()
+                                return@launch
+                            }
+                            if (clip.itemCount == 0) {
+                                pastingIconStatus.setError()
+                                return@launch
+                            }
+
                             clip.getItemAt(0).coerceToText(context)?.toString()?.let { pasted ->
                                 try {
-                                    if (pasted.startsWith("#") && pasted.length == 9) {
-                                        controller.selectByColor(Color(pasted.toColorInt()), true)
-                                        pastingIconStatus.setSuccess()
-                                    } else {
-                                        pastingIconStatus.setError()
-                                    }
+                                    controller.selectByColor(color = pasted.toColor(), fromUser = true)
+                                    pastingIconStatus.setSuccess()
                                 } catch (_: Exception) {
                                     // Decrypt failed from clipboard, no need to log that
                                     pastingIconStatus.setError()
