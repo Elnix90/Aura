@@ -5,13 +5,19 @@ import android.annotation.SuppressLint
 import android.content.pm.PackageManager
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -23,10 +29,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.retain.retain
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -35,19 +46,26 @@ import org.elnix.aura.database.models.AddressData
 import org.elnix.aura.database.models.IdentityValues
 import org.elnix.aura.database.remote.NearbyAddressResult
 import org.elnix.aura.i18n.R
+import org.elnix.aura.ktx.randomColor
 import org.elnix.aura.ktx.showToast
+import org.elnix.aura.ktx.toColor
+import org.elnix.aura.ktx.toHexWithAlpha
 import org.elnix.aura.models.IdentitiesViewModel
 import org.elnix.aura.theme.AppObjectsColors
 import org.elnix.aura.ui.base.activityViewModel
 import org.elnix.aura.ui.base.components.AnimatedFab
+import org.elnix.aura.ui.base.components.Spacer
 import org.elnix.aura.ui.base.compositionlocals.LocalNavigator
-import org.elnix.aura.ui.components.identity.address.RandomAddressSection
+import org.elnix.aura.ui.base.modifiers.conditional
 import org.elnix.aura.ui.components.burger.MoreOptions
+import org.elnix.aura.ui.components.identity.address.RandomAddressSection
 import org.elnix.aura.ui.components.identity.common.IdentityTextField
 import org.elnix.aura.ui.components.identity.date.BirthdateField
 import org.elnix.aura.ui.components.identity.email.EmailField
 import org.elnix.aura.ui.components.identity.note.NotesField
 import org.elnix.aura.ui.components.identity.phone.PhoneField
+import org.elnix.aura.ui.dialogs.ColorPickerDialog
+import org.elnix.aura.ui.dragon.components.DragonButton
 import org.elnix.aura.ui.dragon.components.DragonSettingsGroup
 import org.elnix.aura.ui.dragon.expandable.ExpandableSection
 import org.elnix.aura.ui.dragon.expandable.rememberExpandableSection
@@ -71,8 +89,17 @@ fun IdentityEditorScreen(
 
     var editIdentity by retain(initialValues) { mutableStateOf(initialValues) }
 
+    val editColor = retain(editIdentity.color) {
+        try {
+            editIdentity.color?.toColor() ?: return@retain null
+        } catch (_: Exception) {
+            null
+        }
+    }
+
     var isLoadingNearby by remember { mutableStateOf(false) }
     var shouldRequestPermission by remember { mutableStateOf(false) }
+    var showColorPicker by remember { mutableStateOf(false) }
 
     val addressSection = rememberExpandableSection(
         title = stringResource(R.string.identity_address),
@@ -187,7 +214,9 @@ fun IdentityEditorScreen(
             val focusRequester = remember { FocusRequester() }
 
             LaunchedEffect(Unit) {
-                focusRequester.requestFocus()
+                if (isCreatingNew) {
+                    focusRequester.requestFocus()
+                }
             }
 
             OutlinedTextField(
@@ -251,8 +280,59 @@ fun IdentityEditorScreen(
                     onValueChange = { editIdentity = editIdentity.copy(birthdate = it) },
                     onShuffle = { editIdentity = editIdentity.copy(birthdate = randomIdentityProvider.randomBirthdate()) },
                 )
-
             }
+
+            DragonSettingsGroup(R.string.color) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    DragonButton(
+                        onClick = { showColorPicker = true },
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(10.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.colorize_filled),
+                            contentDescription = null
+                        )
+                        Spacer(5.dp)
+                        Text(stringResource(R.string.color_selector))
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .size(50.dp)
+                            .clip(CircleShape)
+                            .conditional(editColor != null, fallback = {
+                                background(
+                                    Brush.sweepGradient(
+                                        listOf(
+                                            Color.Black,
+                                            Color.Red,
+                                            Color.White,
+                                            Color.Green,
+                                            Color(0xFF930093),
+                                            Color.Blue,
+                                            Color.Black
+                                        )
+                                    ),
+                                    CircleShape
+                                )
+                            }) {
+                                background(editColor!!, CircleShape)
+                            }
+                            .border(2.dp, Color.White, CircleShape)
+                            .clickable {
+                                editIdentity = editIdentity.copy(color = randomColor().toHexWithAlpha)
+                            }
+                            .padding(10.dp)
+                    )
+                }
+            }
+
             DragonSettingsGroup(R.string.identity_address) {
                 ExpandableSection(addressSection) {
 
@@ -336,6 +416,15 @@ fun IdentityEditorScreen(
                 value = editIdentity.customNoteDetail.orEmpty(),
                 onValueChange = { editIdentity = editIdentity.copy(customNoteDetail = it) }
             )
+        }
+    }
+
+    if (showColorPicker) {
+        ColorPickerDialog(
+            initialColor = editColor,
+            onDismissRequest = { showColorPicker = false }
+        ) {
+            editIdentity = editIdentity.copy(color = it.toHexWithAlpha)
         }
     }
 }
