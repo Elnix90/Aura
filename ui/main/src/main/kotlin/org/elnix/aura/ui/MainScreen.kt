@@ -92,7 +92,10 @@ fun MainScreen(
                             onClick = {
                                 navigator.navigate(NavigationRoute.EditIdentity(identity.entity.id))
                             },
-                            onLongClick = { identityToDelete = identity },
+                            onLongClick = {
+                                navigator.navigate(NavigationRoute.EditIdentity(identity.entity.id))
+                            },
+                            onDelete = { identityToDelete = identity },
                         )
                     }
                 }
