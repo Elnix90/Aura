@@ -44,34 +44,39 @@ internal fun BaseSettingsTitle(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 10.dp, vertical = 20.dp)
-            .conditional(onBack) {
-                clickable(
-                    indication = null,
-                    interactionSource = interactionSource,
-                    onClick = it
-                )
-            }
+        modifier = Modifier.fillMaxWidth()
     ) {
-
-        if (onBack != null) {
-            AnimatedFab(
-                onClick = onBack,
-                interactionSource = interactionSource,
-                icon = R.drawable.back
-            )
-        }
-
-        Text(
-            text = title,
-            color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.titleLarge,
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier
                 .weight(1f)
-                .basicMarquee(iterations = 2)
-        )
+                .conditional(onBack) {
+                    clickable(
+                        indication = null,
+                        interactionSource = interactionSource,
+                        onClick = it
+                    )
+                }
+                .padding(horizontal = 10.dp, vertical = 20.dp)
+        ) {
+            if (onBack != null) {
+                AnimatedFab(
+                    onClick = onBack,
+                    interactionSource = interactionSource,
+                    icon = R.drawable.back
+                )
+            }
+
+            Text(
+                text = title,
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.titleLarge,
+                modifier = Modifier
+                    .weight(1f)
+                    .basicMarquee(iterations = 2)
+            )
+        }
 
         actions?.let {
             Box {
