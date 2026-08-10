@@ -21,6 +21,7 @@ internal fun EmailField(
         label = stringResource(R.string.identity_email),
         placeholder = stringResource(R.string.email_placeholder),
         keyboardType = KeyboardType.Email,
+        capitalize = false,
         modifier = Modifier.fillMaxWidth(1f)
     )
 }

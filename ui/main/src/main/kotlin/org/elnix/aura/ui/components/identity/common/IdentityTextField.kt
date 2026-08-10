@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import org.elnix.aura.i18n.R
@@ -27,6 +28,7 @@ internal fun IdentityTextField(
     placeholder: String = "",
     singleLine: Boolean = true,
     keyboardType: KeyboardType = KeyboardType.Text,
+    capitalize: Boolean = true,
     readOnly: Boolean = false,
     onFocusChanged: ((Boolean) -> Unit)? = null,
 ) {
@@ -47,7 +49,10 @@ internal fun IdentityTextField(
         } else null,
         singleLine = singleLine,
         readOnly = readOnly,
-        keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+        keyboardOptions = KeyboardOptions(
+            keyboardType = keyboardType,
+            capitalization = if (capitalize) KeyboardCapitalization.Sentences else KeyboardCapitalization.Unspecified
+        ),
         shape = MaterialTheme.shapes.extraLarge,
         trailingIcon = if (onShuffle != null) {
             {
