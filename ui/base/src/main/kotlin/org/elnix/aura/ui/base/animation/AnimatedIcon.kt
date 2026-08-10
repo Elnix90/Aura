@@ -4,7 +4,8 @@ import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -170,7 +171,8 @@ fun AnimatedIcon.Icon(
                 Error -> errorColor
             }.semiTransparentIfDisabled(enabled),
             modifier = modifier
-                .clip(RoundedCornerShape(5.dp))
+                .size(35.dp)
+                .clip(CircleShape)
                 .clickable(enabled = enabled, onClick = onClick)
                 .padding(5.dp)
         )
