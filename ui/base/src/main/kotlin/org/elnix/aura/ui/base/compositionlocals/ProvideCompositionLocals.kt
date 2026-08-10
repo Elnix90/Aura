@@ -5,6 +5,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import io.github.elnix90.runtime.asState
 import org.elnix.aura.settings.stores.map.ColorModesSettingsStore
+import org.elnix.aura.settings.stores.map.UiSettingsStore
 
 
 /**
@@ -14,9 +15,11 @@ import org.elnix.aura.settings.stores.map.ColorModesSettingsStore
 @Composable
 fun ProvideGlobalCompositionLocals(content: @Composable () -> Unit) {
     val useCustomColorChannels by ColorModesSettingsStore.useCustomColorChannels.asState()
+    val linearInterpolationForCardsColor by UiSettingsStore.linearInterpolationForCardsColor.asState()
 
     CompositionLocalProvider(
         LocalUseCustomColorChannels provides useCustomColorChannels,
+        LocalCardColorLerpAmount provides linearInterpolationForCardsColor,
         content = content
     )
 }

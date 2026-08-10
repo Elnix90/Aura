@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -34,18 +35,25 @@ import io.github.elnix90.runtime.asMutableStateNull
 import org.elnix.aura.base.navigaton.NavigationRoute
 import org.elnix.aura.enumsui.toggle.Theme
 import org.elnix.aura.i18n.R
+import org.elnix.aura.models.IdentitiesViewModel
 import org.elnix.aura.settings.stores.map.ColorModesSettingsStore
+import org.elnix.aura.settings.stores.map.UiSettingsStore
+import org.elnix.aura.ui.base.activityViewModel
 import org.elnix.aura.ui.base.animation.bouncySpec
 import org.elnix.aura.ui.base.components.Spacer
 import org.elnix.aura.ui.base.modifiers.conditional
+import org.elnix.aura.ui.components.identity.card.IdentityCard
 import org.elnix.aura.ui.dragon.components.DragonSettingsGroup
 import org.elnix.aura.ui.dragon.settings.Setting
 import org.elnix.aura.ui.helpers.settings.SettingsScaffold
 
 
 @Composable
-fun AppearanceTab() {
-    var defaultTheme by ColorModesSettingsStore.defaultTheme.asMutableStateNull()
+fun AppearanceTab(
+    identitiesViewModel: IdentitiesViewModel = activityViewModel()
+) {
+    var defaultTheme by ColorModesSettingsStore.theme.asMutableStateNull()
+    val identities by identitiesViewModel.identities.collectAsState()
 
     SettingsScaffold(
         title = stringResource(NavigationRoute.Appearance.resId),
@@ -140,6 +148,21 @@ fun AppearanceTab() {
         DragonSettingsGroup(R.string.special_options) {
             Setting(ColorModesSettingsStore.useCustomColorChannels)
             Setting(ColorModesSettingsStore.dynamicColors)
+        }
+
+
+        DragonSettingsGroup(R.string.main_screen) {
+            Setting(UiSettingsStore.linearInterpolationForCardsColor)
+
+            Spacer(20.dp)
+            if (identities.isNotEmpty()) {
+                IdentityCard(
+                    identities.first(),
+                    onDelete = { },
+                    onClick = {},
+                    modifier = Modifier.padding(10.dp)
+                )
+            }
         }
     }
 }

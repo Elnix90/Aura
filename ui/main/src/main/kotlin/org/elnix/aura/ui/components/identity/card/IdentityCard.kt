@@ -18,7 +18,7 @@ import androidx.compose.runtime.retain.retain
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -28,6 +28,7 @@ import org.elnix.aura.i18n.R
 import org.elnix.aura.ktx.toColor
 import org.elnix.aura.theme.AppObjectsColors
 import org.elnix.aura.ui.base.components.Spacer
+import org.elnix.aura.ui.base.compositionlocals.LocalCardColorLerpAmount
 import org.elnix.aura.ui.dragon.components.DragonIconButton
 
 /**
@@ -47,21 +48,23 @@ fun IdentityCard(
     identity: Identity,
     onDelete: () -> Unit,
     onClick: () -> Unit,
+    modifier: Modifier = Modifier,
     onLongClick: (() -> Unit)? = null
 ) {
+    val linearInterpolationForCardsColor = LocalCardColorLerpAmount.current
     val defaultContainerColor = CardDefaults.cardColors().containerColor
 
-    val backgroundColor = retain(identity.entity.color) {
+    val backgroundColor = retain(identity.entity.color, linearInterpolationForCardsColor) {
         try {
-            val idColor = identity.entity.color?.toColor() ?: return@retain null
-            idColor.compositeOver(defaultContainerColor)
+            val idColor: Color = identity.entity.color?.toColor() ?: return@retain null
+            lerp(idColor, defaultContainerColor, linearInterpolationForCardsColor)
         } catch (_: Exception) {
             null
         }
     }
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .combinedClickable(
                 onClick = onClick,
