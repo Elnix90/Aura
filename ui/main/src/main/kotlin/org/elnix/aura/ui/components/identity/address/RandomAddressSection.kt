@@ -19,6 +19,8 @@ import org.elnix.aura.i18n.R
 import org.elnix.aura.settings.stores.map.UiSettingsStore
 import org.elnix.aura.ui.dragon.components.DragonButton
 import org.elnix.aura.ui.dragon.settings.Setting
+import org.elnix.aura.ui.warning.BetaVersionType
+import org.elnix.aura.ui.warning.BetaVersionWarning
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -27,6 +29,7 @@ internal fun RandomAddressSection(
     isLoading: Boolean,
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
+        BetaVersionWarning(BetaVersionType.Feature, Modifier.padding(10.dp))
         Setting(UiSettingsStore.radiusKm)
 
         DragonButton(

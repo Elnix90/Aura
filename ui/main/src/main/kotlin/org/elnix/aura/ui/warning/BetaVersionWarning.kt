@@ -45,7 +45,8 @@ sealed class BetaVersionType {
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun BetaVersionWarning(
-    betaVersionType: BetaVersionType
+    betaVersionType: BetaVersionType,
+    modifier : Modifier = Modifier
 ) {
     val ctx = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -55,7 +56,8 @@ fun BetaVersionWarning(
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.errorContainer,
             contentColor = MaterialTheme.colorScheme.onErrorContainer
-        )
+        ),
+        modifier = modifier
     ) {
         Column(
             modifier = Modifier.padding(12.dp),
