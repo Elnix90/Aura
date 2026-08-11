@@ -34,8 +34,8 @@ import org.elnix.aura.ui.base.components.Spacer
 import org.elnix.aura.ui.base.compositionlocals.LocalNavigator
 import org.elnix.aura.ui.components.identity.card.IdentityCard
 import org.elnix.aura.ui.dragon.dialogs.UserValidation
+import org.elnix.aura.ui.helpers.settings.BaseSettingsTitle
 import org.elnix.aura.ui.helpers.settings.SettingsScaffold
-import org.elnix.aura.ui.helpers.settings.SpecialSettingsTitle
 import org.elnix.aura.ui.svg.undraw404Error
 
 /**
@@ -63,7 +63,17 @@ fun MainScreen(
         onReset = null,
         onBack = null,
         specialSettingsTitle = {
-            SpecialSettingsTitle { navigator.navigate(NavigationRoute.Settings) }
+            BaseSettingsTitle(
+                title = stringResource(R.string.identities),
+                onBack = null,
+                icon = R.mipmap.ic_launcher_foreground,
+                moreOptions = null
+            ) {
+                AnimatedFab(
+                    onClick = { navigator.navigate(NavigationRoute.Settings) },
+                    icon = R.drawable.settings
+                )
+            }
         },
         scrollableContent = false,
         fab = {
