@@ -1,5 +1,11 @@
-Dragon Launcher is a highly customizable Android launcher focused on speed and efficiency.
+## Main Idea
 
+Every shop you enter asks for your name, address and phone. Not because they need them, because they want a row in a database, and to trace you.
+This app lets you build as many identities as you like and hand each shop a different one. Generate your names, surnames, birthdates, addreses, emails, phones and notes. reuse any piece across identities, and only share the version of you that the shop is actually getting.
 
-The main Idea of this launcher is to launch your apps via gestures.
-You can customize your list of fast access apps easily in the settings,and also use the app drawer to pick an app and launch it automatically
+## Privacy & security
+
+* **No** data collection
+* Internet permission for fetching random addresses
+* Location permission to find the random addresses around you
+* All data stored locally (you can backup manually)

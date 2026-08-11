@@ -9,7 +9,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import org.elnix.aura.base.model.json
+import org.elnix.aura.base.json
 import org.elnix.aura.database.models.AddressData
 import java.net.URLEncoder
 import java.util.concurrent.TimeUnit

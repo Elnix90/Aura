@@ -90,7 +90,7 @@ fun BoxScope.VerticalScrollIndicator(visible: Boolean) {
 @Composable
 fun BoxScope.VerticalScrollIndicator(
     visible: Boolean,
-    @Suppress("unused") isTop: Boolean
+    isTop: Boolean
 ) {
     AnimatedVisibility(
         visible = visible,

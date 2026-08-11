@@ -1,5 +1,3 @@
-@file:Suppress("AssignedValueIsNeverRead")
-
 package org.elnix.aura.ui.dragon.generic
 
 import androidx.compose.foundation.clickable

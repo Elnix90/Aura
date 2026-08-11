@@ -1,5 +1,3 @@
-@file:Suppress("AssignedValueIsNeverRead", "unused")
-
 package org.elnix.aura.ui.dragon.settings
 
 import androidx.compose.runtime.Composable

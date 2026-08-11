@@ -72,7 +72,7 @@ import org.elnix.aura.ui.dragon.components.DragonSettingsGroup
 import org.elnix.aura.ui.dragon.components.ResetIcon
 import org.elnix.aura.ui.dragon.expandable.ExpandableSection
 import org.elnix.aura.ui.dragon.expandable.rememberExpandableSection
-import org.elnix.aura.ui.dragon.model.ExpandableSectionMode
+import org.elnix.aura.base.model.ExpandableSectionMode
 import org.elnix.aura.ui.helpers.settings.BaseSettingsTitle
 import org.elnix.aura.ui.helpers.settings.SettingsScaffold
 

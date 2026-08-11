@@ -5,8 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import org.elnix.aura.ui.dragon.model.ExpandableSectionMode
-import org.elnix.aura.ui.dragon.model.ExpandableSectionState
+import org.elnix.aura.base.model.ExpandableSectionMode
+import org.elnix.aura.base.model.ExpandableSectionState
 
 
 @Composable

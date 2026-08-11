@@ -1,5 +1,0 @@
-2.0.1
-2026-01-3
-
-[NEW]
-* Added option to make widgets foreground (no Dragon gesture on it)

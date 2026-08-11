@@ -20,8 +20,8 @@ import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.elnix.aura.ui.dragon.model.ExpandableSectionMode
-import org.elnix.aura.ui.dragon.model.ExpandableSectionState
+import org.elnix.aura.base.model.ExpandableSectionMode
+import org.elnix.aura.base.model.ExpandableSectionState
 
 /**
  * Used in modal sheets to give padding to the content to avoid it being directly on the edges

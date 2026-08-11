@@ -1,5 +1,3 @@
-@file:Suppress("AssignedValueIsNeverRead")
-
 package org.elnix.aura.ui
 
 import android.annotation.SuppressLint
@@ -31,8 +29,8 @@ import org.elnix.aura.ui.base.compositionlocals.ProvideGlobalCompositionLocals
 import org.elnix.aura.ui.dialogs.GoogleLockingWarningDialog
 import org.elnix.aura.ui.helpers.FpsCounterGraph
 import org.elnix.aura.ui.helpers.LauncherSnackbarHost
-import org.elnix.aura.ui.navigation.horizontalMetadata
-import org.elnix.aura.ui.navigation.verticalMetadata
+import org.elnix.aura.ui.base.animation.horizontalMetadata
+import org.elnix.aura.ui.base.animation.verticalMetadata
 import org.elnix.aura.ui.settings.customization.AppearanceTab
 import org.elnix.aura.ui.settings.customization.BehaviorTab
 import org.elnix.aura.ui.settings.debug.DebugTab

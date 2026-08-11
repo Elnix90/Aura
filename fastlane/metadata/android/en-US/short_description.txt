@@ -1,1 +1,1 @@
-Fast and efficient Android launcher based on gestures and minimalism
+Aura is a tool built to protect your privacy when it doesn't seem to be protectable

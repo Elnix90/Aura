@@ -1,4 +1,4 @@
-package org.elnix.aura.ui.navigation
+package org.elnix.aura.ui.base.animation
 
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
@@ -15,7 +15,6 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.navigation3.runtime.metadata
 import androidx.navigation3.ui.NavDisplay
-import org.elnix.aura.ui.base.animation.navigationBouncySpec
 
 fun slideFadeInFromRight(): EnterTransition {
     return slideInHorizontally(

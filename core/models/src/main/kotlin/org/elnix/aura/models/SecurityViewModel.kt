@@ -87,10 +87,6 @@ public class SecurityViewModel @Inject constructor(
 
     public fun verify(pin: String, storedHash: String): Boolean = securityService.verify(pin, storedHash)
 
-    public fun cancelUnlock() {
-    }
-
-
 
     public fun isDeviceUnlockAvailable(): Boolean = securityService.isDeviceUnlockAvailable(application)
 

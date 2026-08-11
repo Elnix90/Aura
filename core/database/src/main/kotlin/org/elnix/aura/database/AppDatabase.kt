@@ -1,5 +1,3 @@
-@file:Suppress("ClassName")
-
 package org.elnix.aura.database
 
 import android.content.Context

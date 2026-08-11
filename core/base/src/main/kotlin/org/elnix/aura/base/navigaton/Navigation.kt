@@ -89,7 +89,6 @@ public sealed class NavigationRoute : NavKey {
     public data class LogsViewer(
         val filename: String
     ) : NavigationRoute() {
-        override fun hashCode(): Int = super.hashCode()
         override val resId: Int = R.string.logs
         override val icon: Int = R.drawable.source_notes
     }

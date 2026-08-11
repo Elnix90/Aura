@@ -1,5 +1,3 @@
-@file:Suppress("AssignedValueIsNeverRead")
-
 package org.elnix.aura.ui.settings.debug
 
 import android.app.ActivityManager

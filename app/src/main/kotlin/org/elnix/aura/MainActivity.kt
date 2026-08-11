@@ -28,6 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.yield
+import org.elnix.aura.base.utils.LifecycleUtils
 import org.elnix.aura.enumsui.toggle.LockMethod.Device
 import org.elnix.aura.enumsui.toggle.LockMethod.None
 import org.elnix.aura.enumsui.toggle.LockMethod.Pattern
@@ -117,7 +118,7 @@ class MainActivity : FragmentActivity() {
                         Pin -> {
                             PinUnlock(
                                 onDismiss = {
-                                    securityViewModel.cancelUnlock()
+                                    LifecycleUtils.closeApp(this)
                                 },
                                 onSuccess = {
                                     securityViewModel.unlock()
@@ -128,7 +129,7 @@ class MainActivity : FragmentActivity() {
                         Pattern -> {
                             PatternUnlock(
                                 onDismiss = {
-                                    securityViewModel.cancelUnlock()
+                                    LifecycleUtils.closeApp(this)
                                 },
                                 onSuccess = {
                                     securityViewModel.unlock()
@@ -147,11 +148,11 @@ class MainActivity : FragmentActivity() {
                                     },
                                     onError = { msg ->
                                         ctx.showToast(ctx.getString(R.string.authentication_error, msg))
-                                        securityViewModel.cancelUnlock()
+                                        LifecycleUtils.closeApp(this)
                                     },
                                     onFailed = {
                                         ctx.showToast(ctx.getString(R.string.authentication_failed))
-                                        securityViewModel.cancelUnlock()
+                                        LifecycleUtils.closeApp(this)
                                     }
                                 )
                             }
@@ -159,7 +160,7 @@ class MainActivity : FragmentActivity() {
                     }
                 } else {
                     // Loads the logging system, do not remove or you won't have any logs!
-                    @Suppress("UnusedVariable", "unused")
+                    @Suppress("UnusedVariable")
                     val dragonLogViewModel: DragonLogViewModel = activityViewModel()
 
                     // Force launch of full viewmodel after first frame for performance

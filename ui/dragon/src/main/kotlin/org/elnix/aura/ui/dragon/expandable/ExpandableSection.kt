@@ -31,8 +31,8 @@ import org.elnix.aura.ui.base.animation.bouncySpec
 import org.elnix.aura.ui.base.modifiers.conditional
 import org.elnix.aura.ui.dragon.components.DragonModalBottomSheet
 import org.elnix.aura.ui.dragon.components.rememberBottomSheetState
-import org.elnix.aura.ui.dragon.model.ExpandableSectionMode
-import org.elnix.aura.ui.dragon.model.ExpandableSectionState
+import org.elnix.aura.base.model.ExpandableSectionMode
+import org.elnix.aura.base.model.ExpandableSectionState
 import org.elnix.aura.ui.dragon.text.TextWithDescription
 
 

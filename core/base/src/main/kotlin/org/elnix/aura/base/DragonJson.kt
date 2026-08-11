@@ -1,4 +1,4 @@
-package org.elnix.aura.base.model
+package org.elnix.aura.base
 
 import io.github.elnix90.logging.JSON_TAG
 import io.github.elnix90.logging.logE

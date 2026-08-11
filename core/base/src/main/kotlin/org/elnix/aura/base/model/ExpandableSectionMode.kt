@@ -1,4 +1,4 @@
-package org.elnix.aura.ui.dragon.model
+package org.elnix.aura.base.model
 
 public sealed class ExpandableSectionMode {
     public data class ModalSheet(

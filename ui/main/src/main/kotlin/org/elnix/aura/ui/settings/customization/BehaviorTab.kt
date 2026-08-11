@@ -1,5 +1,3 @@
-@file:Suppress("AssignedValueIsNeverRead")
-
 package org.elnix.aura.ui.settings.customization
 
 import android.annotation.SuppressLint
