@@ -60,6 +60,10 @@ public class RandomIdentityProvider @Inject constructor() {
 
     public fun randomHouseNumber(): String = Random.nextInt(1, 400).toString()
 
+
+    // TODO make email pick the same names as name / surname
+    // TODO make postal code french
+
     public fun randomPostalCode(): String =
         if (Random.nextBoolean()) {
             (1..4).map { Random.nextInt(10) }.joinToString(separator = "")
